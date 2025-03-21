@@ -7,8 +7,6 @@ Repository ini disusun oleh kelompok WeCan untuk menampilkan dokumentasi lengkap
 3. Mikhael Setia Budi			(2311110033)
 4. Irena Cahya Resinah			(2311110066)
 
-![image](https://github.com/user-attachments/assets/fc6e1248-5723-4f6e-9bac-a9db2b8e28d6)
-
 # Deskripsi Aplikasi Smart Performance Predictor (SPP)
 Aplikasi Smart Performance Predictor adalah sistem berbasis machine learning yang dirancang untuk memprediksi kinerja akademik siswa. Aplikasi ini menyediakan fitur utama seperti manajemen data siswa, preprocessing data, penerapan model prediktif, visualisasi hasil, serta fitur ekspor laporan. Berikut adalah alur aplikasi dari sudut pandang user:
 
@@ -23,4 +21,7 @@ Aplikasi Smart Performance Predictor adalah sistem berbasis machine learning yan
 - Ekspor Laporan: Menyediakan laporan dalam format PDF atau dokumen lain untuk evaluasi akademik.
 
 # Dokumentasi OOP & FP
-Aplikasi ini dikembangkan dengan pendekatan Object-Oriented Programming (OOP) untuk pengelolaan data siswa, autentikasi pengguna, dan modul analisis data. Functional Programming (FP) digunakan dalam preprocessing data dan pengolahan model machine learning untuk memastikan efisiensi dan modularitas kode.
+Aplikasi ini dikembangkan dengan pendekatan Object-Oriented Programming (OOP) untuk pengelolaan data siswa, autentikasi pengguna, dan modul analisis data. Functional Programming (FP) digunakan dalam preprocessing data dan pengolahan model machine learning untuk memastikan efisiensi dan modularitas kode. 
+
+![image](https://github.com/user-attachments/assets/ed8753e9-6d7d-45b8-8a69-0a037c8ae91a)
+
