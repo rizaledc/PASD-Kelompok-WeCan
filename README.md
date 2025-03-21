@@ -22,6 +22,3 @@ Aplikasi Smart Performance Predictor adalah sistem berbasis machine learning yan
 
 # Dokumentasi OOP & FP
 Aplikasi ini dikembangkan dengan pendekatan Object-Oriented Programming (OOP) untuk pengelolaan data siswa, autentikasi pengguna, dan modul analisis data. Functional Programming (FP) digunakan dalam preprocessing data dan pengolahan model machine learning untuk memastikan efisiensi dan modularitas kode. 
-
-![image](https://github.com/user-attachments/assets/ed8753e9-6d7d-45b8-8a69-0a037c8ae91a)
-
