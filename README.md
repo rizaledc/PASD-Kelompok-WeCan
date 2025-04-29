@@ -5,7 +5,7 @@ Repository ini disusun oleh kelompok WeCan untuk menampilkan dokumentasi lengkap
 1. Rizal Wahyu Pratama			(2311110029)
 2. Khulika Malkan				(2311110057)
 3. Mikhael Setia Budi			(2311110033)
-4. Irena Cahya Resinah			
+4. Irena Cahya R
 
 # Deskripsi Aplikasi Smart Performance Predictor (SPP)
 Aplikasi Smart Performance Predictor adalah sistem berbasis machine learning yang dirancang untuk memprediksi kinerja akademik siswa. Aplikasi ini menyediakan fitur utama seperti manajemen data siswa, preprocessing data, penerapan model prediktif, visualisasi hasil, serta fitur ekspor laporan. Berikut adalah alur aplikasi dari sudut pandang user:
