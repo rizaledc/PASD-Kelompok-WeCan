@@ -4,7 +4,7 @@ Repository ini disusun oleh kelompok WeCan untuk menampilkan dokumentasi lengkap
 # Anggota Kelompok
 1. Rizal Wahyu Pratama			(2311110029)
 2. Khulika Malkan				(2311110057)
-3. Mikhael Setia Budi			(2311110033)
+3. Mikhael Setia Budi			
 4. Irena Cahya Resinah			(2311110066)
 
 # Deskripsi Aplikasi Smart Performance Predictor (SPP)
