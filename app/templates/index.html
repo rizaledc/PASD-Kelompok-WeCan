@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi Kelulusan TUP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Prediksi Kelulusan Mahasiswa</h1>
+        <form method="POST" action="/predict">
+            <label for="nilai_ujian">Nilai Ujian:</label>
+            <input type="number" id="nilai_ujian" name="nilai_ujian" required><br><br>
+
+            <label for="kehadiran">Kehadiran (%):</label>
+            <input type="number" id="kehadiran" name="kehadiran" required><br><br>
+
+            <label for="keaktifan">Keaktifan (%):</label>
+            <input type="number" id="keaktifan" name="keaktifan" required><br><br>
+
+            <button type="submit">Prediksi</button>
+        </form>
+        
+        {% if result %}
+            <h2>Hasil Prediksi: {{ result }}</h2>
+        {% endif %}
+    </div>
+</body>
+</html>
