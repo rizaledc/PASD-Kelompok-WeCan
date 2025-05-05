@@ -1,23 +1,23 @@
 /* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa; /* Latar belakang abu-abu muda */
+    background-color: #BF131D; /* Merah utama */
     margin: 0;
     padding: 0;
 }
 
 /* Card Styles (Login and Register) */
 .card {
-    background-color: #ffffff; /* Warna latar belakang putih untuk card */
-    border-radius: 15px; /* Sudut card membulat */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan untuk card */
+    background-color: #6A0F0F; /* Merah gelap untuk card */
+    border-radius: 15px; /* Membulatkan sudut */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan pada card */
 }
 
 /* Heading Styles */
 h1 {
     font-size: 2rem;
-    color: #007bff; /* Warna biru untuk judul */
-    text-align: center;
+    color: #FFFFFF; /* Putih untuk judul */
+    font-weight: bold;
 }
 
 /* Input Fields */
@@ -31,7 +31,7 @@ input {
 }
 
 input:focus {
-    border-color: #007bff; /* Warna border saat fokus */
+    border-color: #FFC107; /* Warna kuning saat fokus */
     outline: none;
 }
 
@@ -43,19 +43,21 @@ button {
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    background-color: #FFC107; /* Kuning untuk tombol */
+    color: black; /* Teks hitam */
 }
 
 button:hover {
-    background-color: #0069d9; /* Warna tombol saat hover */
+    background-color: #FF9800; /* Warna lebih gelap saat hover */
 }
 
 button:active {
-    background-color: #0056b3; /* Warna tombol saat diklik */
+    background-color: #FF5722; /* Warna lebih gelap saat klik */
 }
 
 /* Link Styling */
 a {
-    color: #007bff; /* Warna link biru */
+    color: #FFC107; /* Warna kuning untuk link */
     text-decoration: none;
 }
 
