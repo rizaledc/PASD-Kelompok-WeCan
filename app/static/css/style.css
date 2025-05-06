@@ -1,51 +1,102 @@
+/* Global Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    background-color: #BF131D; /* Merah utama */
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
 }
 
-.container {
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+/* Card Styles (Login and Register) */
+.card {
+    background-color: #6A0F0F; /* Merah gelap untuk card */
+    border-radius: 15px; /* Membulatkan sudut */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan pada card */
 }
 
+/* Heading Styles */
 h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-form label {
+    font-size: 2rem;
+    color: #FFFFFF; /* Putih untuk judul */
     font-weight: bold;
 }
 
+/* Input Fields */
 input {
-    width: 100%;
+    font-size: 1.1rem;
     padding: 10px;
+    width: 100%;
     margin: 10px 0;
+    border-radius: 5px;
     border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
+input:focus {
+    border-color: #FFC107; /* Warna kuning saat fokus */
+    outline: none;
+}
+
+/* Button Styles */
 button {
+    font-size: 1.1rem;
+    padding: 12px;
     width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
+    border-radius: 5px;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
+    background-color: #FFC107; /* Kuning untuk tombol */
+    color: black; /* Teks hitam */
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #FF9800; /* Warna lebih gelap saat hover */
 }
 
-h2 {
-    text-align: center;
+button:active {
+    background-color: #FF5722; /* Warna lebih gelap saat klik */
+}
+
+/* Link Styling */
+a {
+    color: #FFC107; /* Warna kuning untuk link */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Form Styles */
+form {
     margin-top: 20px;
+}
+
+/* Paragraph and Text Styles */
+p {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Container (Centering the Form) */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Memastikan form berada di tengah layar */
+}
+
+/* For smaller screen sizes (Mobile First) */
+@media (max-width: 576px) {
+    .card {
+        width: 100%; /* Full width pada layar kecil */
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.8rem; /* Ukuran font lebih kecil di layar kecil */
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 10px;
+    }
 }

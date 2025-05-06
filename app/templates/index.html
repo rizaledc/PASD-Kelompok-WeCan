@@ -1,35 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prediksi Kelulusan Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <div class="container">
-        <h1>Prediksi Kelulusan Mahasiswa</h1>
-        <form method="POST" action="{{ url_for('predict') }}">
-            <label for="nilai_ujian">Nilai Ujian:</label>
-            <input type="number" name="nilai_ujian" required><br>
+<body style="background-color: #f7f7f7;">
 
-            <label for="kehadiran">Kehadiran (%):</label>
-            <input type="number" name="kehadiran" required><br>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card p-5 shadow-lg" style="width: 100%; max-width: 450px; border-radius: 15px;">
+            <h1 class="text-center mb-4 text-primary">Prediksi Kelulusan Mahasiswa</h1>
+            <form method="POST" action="{{ url_for('predict') }}">
+                <div class="mb-3">
+                    <label for="nilai_ujian" class="form-label">Nilai Ujian:</label>
+                    <input type="number" name="nilai_ujian" class="form-control" required>
+                </div>
 
-            <label for="keaktifan">Keaktifan (%):</label>
-            <input type="number" name="keaktifan" required><br>
+                <div class="mb-3">
+                    <label for="kehadiran" class="form-label">Kehadiran (%):</label>
+                    <input type="number" name="kehadiran" class="form-control" required>
+                </div>
 
-            <button type="submit" style="background-color: green; color: white;">Prediksi</button>
-        </form>
-        
-        {% if result %}
-            <h2>Hasil Prediksi: {{ result }}</h2>
-        {% endif %}
+                <div class="mb-3">
+                    <label for="keaktifan" class="form-label">Keaktifan (%):</label>
+                    <input type="number" name="keaktifan" class="form-control" required>
+                </div>
 
-        <!-- Tombol logout -->
-        <form action="{{ url_for('logout') }}" method="POST">
-            <button type="submit" style="background-color: red; color: white; margin-top: 20px;">Logout</button>
-        </form>
+                <button type="submit" class="btn btn-success w-100 py-2 mt-3">Prediksi</button>
+            </form>
+
+            {% if result %}
+                <div class="alert alert-info mt-4 text-center">
+                    <strong>Hasil Prediksi: </strong>{{ result }}
+                </div>
+            {% endif %}
+
+            <form action="{{ url_for('logout') }}" method="POST" class="mt-4">
+                <button type="submit" class="btn btn-danger w-100 py-2">Logout</button>
+            </form>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
