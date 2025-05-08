@@ -7,6 +7,22 @@ body {
     color: #333; /* Default text color */
 }
 
+/* Tambahkan ini jika .bg-main belum ada dan Anda ingin warna spesifik */
+.bg-main {
+    background-color: #f4f7f6; /* Atau warna lain yang Anda inginkan */
+}
+
+.auth-link-text {
+    font-size: 0.9rem;
+    color: #555; /* Warna abu-abu yang sedikit lebih gelap */
+}
+
+/* Gaya link di dalam .auth-link-text akan mewarisi dari 'a' global,
+   tapi Anda bisa override jika perlu */
+.auth-link-text a {
+    font-weight: 500; /* Membuat link sedikit lebih tebal */
+}
+
 .container-custom {
     display: flex;
     justify-content: center;
