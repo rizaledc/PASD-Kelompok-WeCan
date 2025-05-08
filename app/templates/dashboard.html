@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+    </head>
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>NamaApp</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-users"></i> Pengguna</a></li>
+                <li><a href="#"><i class="fas fa-cogs"></i> Pengaturan</a></li>
+                <li><a href="#"><i class="fas fa-chart-bar"></i> Laporan</a></li>
+                <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Dashboard Utama</h1>
+                <div class="user-profile">
+                    <a href="#">Profil Saya</a>
+                </div>
+            </header>
+
+            <section class="cards-container">
+                <div class="card">
+                    <h3>Total Pengguna</h3>
+                    <p>1,250</p>
+                </div>
+                <div class="card">
+                    <h3>Penjualan Hari Ini</h3>
+                    <p>Rp 5.000.000</p>
+                </div>
+                <div class="card">
+                    <h3>Tiket Baru</h3>
+                    <p>12</p>
+                </div>
+            </section>
+
+            <section class="data-section mt-2">
+                <h2>Data Terbaru</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>Tanggal Daftar</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Budi Santoso</td>
+                            <td>budi@example.com</td>
+                            <td>2024-05-01</td>
+                            <td class="action-buttons">
+                                <a href="#" class="btn btn-sm">Edit</a>
+                                <button class="btn btn-danger btn-sm">Hapus</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Ani Lestari</td>
+                            <td>ani@example.com</td>
+                            <td>2024-05-03</td>
+                            <td class="action-buttons">
+                                <a href="#" class="btn btn-sm">Edit</a>
+                                <button class="btn btn-danger btn-sm">Hapus</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                </table>
+            </section>
+
+            <footer class="dashboard-footer">
+                <p>&copy; <span id="currentYear"></span> Nama Perusahaan Anda. Semua Hak Dilindungi.</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
