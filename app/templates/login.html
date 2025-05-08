@@ -67,9 +67,7 @@
                 </p>
 
                 <div class="text-center mt-4">
-                    <small class="text-muted">&copy; {{ current_year }} Prediksi Kelulusan Mahasiswa. Semua hak cipta dilindungi.</small>
-                    {# Ganti {{ current_year }} dengan tahun saat ini jika tidak menggunakan template engine yang mendukungnya secara otomatis #}
-                    {# Atau hardcode tahunnya jika perlu #}
+                    <small class="text-muted">&copy; {{ current_year }} Prediksi Kelulusan. Semua hak cipta dilindungi.</small>
                 </div>
             </div>
         </div>
@@ -92,16 +90,6 @@
                     }, false)
                 })
         })();
-
-        // Anda bisa menambahkan current_year ke context Flask dan mengganti {{ current_year }}
-        // atau menggunakan JavaScript untuk mengisi tahun:
-        // document.addEventListener('DOMContentLoaded', (event) => {
-        //     const yearSpan = document.getElementById('currentYear');
-        //     if(yearSpan) {
-        //        yearSpan.textContent = new Date().getFullYear();
-        //     }
-        // });
-        // Dan di HTML: <small class="text-muted">&copy; <span id="currentYear"></span> Nama Aplikasi Anda...</small>
 
     </script>
 </body>
