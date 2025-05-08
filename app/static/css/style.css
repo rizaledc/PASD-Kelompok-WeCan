@@ -1,102 +1,163 @@
 /* Global Styles */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #BF131D; /* Merah utama */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6; /* Light, neutral background */
     margin: 0;
     padding: 0;
+    color: #333; /* Default text color */
 }
 
-/* Card Styles (Login and Register) */
-.card {
-    background-color: #6A0F0F; /* Merah gelap untuk card */
-    border-radius: 15px; /* Membulatkan sudut */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan pada card */
+.container-custom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px; /* Added padding for better spacing on small screens */
+}
+
+/* Card Styles */
+.card-custom {
+    background-color: #ffffff; /* White card background */
+    border-radius: 12px; /* Softer rounded corners */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+    padding: 35px 40px; /* Increased padding inside the card */
+    width: 100%;
+    max-width: 500px; /* Slightly wider card for better content fit */
 }
 
 /* Heading Styles */
-h1 {
-    font-size: 2rem;
-    color: #FFFFFF; /* Putih untuk judul */
-    font-weight: bold;
+.card-custom h1 {
+    font-size: 1.8rem; /* Adjusted font size for the title */
+    color: #2c3e50; /* Darker, more professional blue/grey */
+    font-weight: 600; /* Semi-bold */
+    margin-bottom: 30px; /* More space below heading */
+    text-align: center;
 }
 
-/* Input Fields */
-input {
-    font-size: 1.1rem;
-    padding: 10px;
-    width: 100%;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+/* Form Label Styles */
+.form-label {
+    font-weight: 500; /* Medium weight for labels */
+    color: #555;
+    margin-bottom: 8px; /* Space between label and input */
 }
 
-input:focus {
-    border-color: #FFC107; /* Warna kuning saat fokus */
+/* Input Fields - Leveraging Bootstrap's .form-control */
+.form-control {
+    font-size: 1rem;
+    padding: 12px 15px; /* Comfortable padding */
+    /* width: 100%; (handled by Bootstrap) */
+    margin-bottom: 20px; /* Consistent space between input fields */
+    border-radius: 8px; /* Softer corners for inputs */
+    border: 1px solid #ced4da; /* Standard Bootstrap border color */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition */
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Primary blue focus color */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap-like focus shadow */
     outline: none;
 }
 
-/* Button Styles */
-button {
-    font-size: 1.1rem;
-    padding: 12px;
-    width: 100%;
-    border-radius: 5px;
-    border: none;
+/* General Button Styles (complementing Bootstrap's .btn) */
+.btn {
+    font-size: 1rem;
+    padding-top: 12px;    /* Ensured by .py-2 or custom padding */
+    padding-bottom: 12px; /* Ensured by .py-2 or custom padding */
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease, box-shadow 0.2s ease-in-out;
     cursor: pointer;
-    background-color: #FFC107; /* Kuning untuk tombol */
-    color: black; /* Teks hitam */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for buttons */
 }
 
-button:hover {
-    background-color: #FF9800; /* Warna lebih gelap saat hover */
+.btn:hover {
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-button:active {
-    background-color: #FF5722; /* Warna lebih gelap saat klik */
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Link Styling */
+/* Custom Primary Button */
+.btn-primary-custom {
+    background-color: #007bff; /* Primary blue */
+    color: white;
+    border: none;
+}
+
+.btn-primary-custom:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    color: white;
+}
+
+.btn-primary-custom:active {
+    background-color: #004085; /* Even darker on active */
+    color: white;
+}
+
+/* Custom Danger Button */
+.btn-danger-custom {
+    background-color: #dc3545; /* Standard danger red */
+    color: white;
+    border: none;
+}
+
+.btn-danger-custom:hover {
+    background-color: #c82333; /* Darker red on hover */
+    color: white;
+}
+
+.btn-danger-custom:active {
+    background-color: #bd2130; /* Even darker on active */
+    color: white;
+}
+
+/* Alert Message Styles */
+.alert-custom {
+    background-color: #e7f3fe; /* Light blue background for info */
+    border-left: 5px solid #007bff; /* Blue left border for emphasis */
+    color: #004085; /* Dark blue text for readability */
+    padding: 15px 20px;
+    margin-top: 30px; /* More space above the alert */
+    border-radius: 8px;
+    text-align: center; /* Already in HTML but good to have here too */
+}
+
+.alert-custom strong {
+    color: #004085; /* Ensure strong text also has good contrast */
+}
+
+/* Link Styling (though not prominent in this specific dashboard) */
 a {
-    color: #FFC107; /* Warna kuning untuk link */
+    color: #007bff;
     text-decoration: none;
 }
 
 a:hover {
     text-decoration: underline;
+    color: #0056b3;
 }
 
-/* Form Styles */
-form {
-    margin-top: 20px;
-}
-
-/* Paragraph and Text Styles */
-p {
-    text-align: center;
-    margin-top: 15px;
-}
-
-/* Container (Centering the Form) */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Memastikan form berada di tengah layar */
-}
-
-/* For smaller screen sizes (Mobile First) */
+/* Responsive Adjustments */
 @media (max-width: 576px) {
-    .card {
-        width: 100%; /* Full width pada layar kecil */
-        padding: 20px;
+    .card-custom {
+        padding: 25px 20px; /* Reduce padding on smaller screens */
+        margin-left: 10px;   /* Add small horizontal margin */
+        margin-right: 10px;  /* Add small horizontal margin */
     }
 
-    h1 {
-        font-size: 1.8rem; /* Ukuran font lebih kecil di layar kecil */
+    .card-custom h1 {
+        font-size: 1.6rem; /* Slightly smaller heading for mobile */
     }
 
-    button {
-        font-size: 1rem;
-        padding: 10px;
+    .btn { /* Adjust button padding and font for smaller screens */
+        font-size: 0.9rem;
+        /* .py-2 might be sufficient, or adjust padding here if needed */
+    }
+
+    .form-control { /* Adjust input padding for smaller screens */
+        padding: 10px 12px;
     }
 }

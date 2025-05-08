@@ -1,13 +1,13 @@
 from flask import render_template, request, redirect, url_for, flash
 from app import app, db
 from app.models import User, PredictionHistory
-from flask_login import login_user, login_required, current_user, logout_user
+from flask_login import login_user, login_required, current_user, logout_user#
 
 # Halaman utama (hanya bisa diakses setelah login)
 @app.route('/')
 def home():
     if current_user.is_authenticated:  # Memeriksa apakah pengguna sudah login
-        return render_template('index.html')  # Jika sudah login, tampilkan index.html
+        return render_template('dashboard.html') 
     else:
         return redirect(url_for('login'))  # Jika belum login, arahkan ke halaman login
 
@@ -85,7 +85,7 @@ def predict():
         db.session.commit()
 
         flash(f'Prediksi Anda: {result}', 'success')
-        return render_template('index.html', result=result)
+        return render_template('dashboard.html', result=result)
     
     except Exception as e:
         flash('Terjadi kesalahan saat melakukan prediksi.', 'danger')
