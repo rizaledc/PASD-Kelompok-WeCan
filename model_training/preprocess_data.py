@@ -8,7 +8,7 @@ def load_data(file_path):
 
 def preprocess_data(data):
     """Melakukan preprocessing pada data: membersihkan dan menormalkan data."""
-    # Menghapus data yang hilang (jika ada)
+    # Menghapus data yang hilang
     data = data.dropna()
     
     # Mengubah kolom 'Kelulusan' menjadi numerik (0 = Tidak Lulus, 1 = Lulus)
@@ -23,7 +23,3 @@ def preprocess_data(data):
     X_scaled = scaler.fit_transform(X)
     
     return X_scaled, y
-
-# Contoh pemakaian:
-# data = load_data('app/data/data_kelulusan_mahasiswa.csv')
-# X, y = preprocess_data(data)

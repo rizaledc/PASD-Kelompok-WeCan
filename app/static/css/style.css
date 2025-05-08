@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #BF131D; /* Merah utama */
+    background-color: #BF131D; /* Warna merah gelap untuk latar belakang */
     margin: 0;
     padding: 0;
 }
@@ -11,6 +11,8 @@ body {
     background-color: #6A0F0F; /* Merah gelap untuk card */
     border-radius: 15px; /* Membulatkan sudut */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan pada card */
+    width: 100%;
+    max-width: 450px;
 }
 
 /* Heading Styles */
@@ -65,15 +67,19 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Form Styles */
-form {
-    margin-top: 20px;
-}
-
-/* Paragraph and Text Styles */
+/* Teks untuk 'Belum punya akun?' */
 p {
     text-align: center;
     margin-top: 15px;
+    color: #FFFFFF; /* Teks putih untuk kalimat 'Belum punya akun?' */
+}
+
+p a {
+    color: #FFC107; /* Warna kuning untuk link 'Daftar disini' */
+}
+
+p a:hover {
+    text-decoration: underline;
 }
 
 /* Container (Centering the Form) */

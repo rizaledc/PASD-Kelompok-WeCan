@@ -10,7 +10,3 @@ def load_model(filename):
     model = joblib.load(filename)
     print(f"Model telah dimuat dari {filename}")
     return model
-
-# Contoh pemakaian:
-# save_model(model, 'app/ml_model/model.pkl')
-# model = load_model('app/ml_model/model.pkl')

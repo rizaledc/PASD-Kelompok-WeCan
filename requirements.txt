@@ -1,4 +1,6 @@
+// filepath: c:\Prediksi-Kelulusan-TUP\PASD-Kelompok-WeCan\requirements.txt
 scikit-learn
 flask
 pandas
 joblib
+flask_sqlalchemy
