@@ -1,15 +1,20 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Inisialisasi aplikasi Flask
 app = Flask(__name__)
 
 # Konfigurasi aplikasi
-app.config['SECRET_KEY'] = 'fe970610e1010e493d1ac97d9cc31d6a9dba47a90ae9e6a1' 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://neondb_owner:npg_JiGIqv3O9hXs@ep-aged-thunder-a1k2sjx1-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require' 
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['DEBUG'] = True
+app.config['DEBUG'] = os.getenv('DEBUG', 'False').lower() in ('true', '1', 't')
 
 # Inisialisasi objek SQLAlchemy
 db = SQLAlchemy()
