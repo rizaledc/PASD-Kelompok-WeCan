@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash
 from app import app, db
 from app.models import User, PredictionHistory
-from flask_login import login_user, login_required, current_user, logout_user#
+from flask_login import login_user, login_required, current_user, logout_user
 
 # Halaman utama (hanya bisa diakses setelah login)
 @app.route('/')
@@ -54,11 +54,11 @@ def register():
     return render_template('register.html')
 
 # Halaman logout
-@app.route('/logout')
+@app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
     logout_user()
-    flash('Anda telah berhasil logout', 'info')
+    flash('Anda telah berhasil logout', 'info')  # Pesan logout hanya muncul setelah logout
     return redirect(url_for('login'))  # Arahkan ke halaman login setelah logout
 
 # Halaman prediksi

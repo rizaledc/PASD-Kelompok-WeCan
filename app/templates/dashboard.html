@@ -31,8 +31,9 @@
                 <button type="submit" class="btn btn-primary-custom w-100 py-2 mt-3">Prediksi</button>
             </form>
 
+            <!-- Menampilkan hasil prediksi dengan warna yang berbeda -->
             {% if result %}
-                <div class="alert-custom mt-4 text-center">
+                <div class="alert {% if result == 'Lulus' %}alert-success{% else %}alert-danger{% endif %} mt-4 text-center">
                     <strong>Hasil Prediksi: </strong>{{ result }}
                 </div>
             {% endif %}
