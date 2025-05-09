@@ -1,67 +1,131 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Header</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style> body { font-family: 'Inter', sans-serif; } </style>
 </head>
 <body class="bg-gray-100">
-    <header class="bg-white shadow-md py-4">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>
-            <nav class="space-x-6 flex items-center relative">
-                <a href="#" class="text-gray-700 hover:text-blue-600 transition duration-300">Statistik</a>
-                <div class="relative">
-                    <button id="profile-btn" class="text-gray-700 hover:text-blue-600 transition duration-300 focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    </button>
-                    <div id="profile-dropdown" class="absolute right-0 mt-2 bg-white rounded-md shadow-lg w-48 hidden">
-                        <div class="py-1">
-                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 transition duration-300">Tampilan Profil</a>
-                            <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100 transition duration-300 font-semibold">Logout</a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
 
-    <main class="container mx-auto px-4 py-8">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Selamat Datang di Dashboard</h2>
-        <p class="text-gray-600 mb-6">Ini adalah halaman dashboard Anda.</p>
-
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">Tampilan Lulus/Tidak</h3>
-            <p class="text-gray-600">Di sini Anda dapat melihat informasi kelulusan.</p>
+  <!-- Header -->
+  <header class="bg-white shadow-md py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>
+      <nav class="space-x-6 flex items-center relative">
+        <a href="#" class="text-gray-700 hover:text-blue-600 transition">Statistik</a>
+        <div class="relative">
+          <button id="profile-btn" class="focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-700 hover:text-blue-600 transition" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </button>
+          <div id="profile-dropdown" class="absolute right-0 mt-2 bg-white rounded-md shadow-lg w-48 hidden">
+            <div class="py-1">
+              <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profil</a>
+              <a href="{{ url_for('logout') }}" class="block px-4 py-2 text-red-600 hover:bg-gray-100 font-semibold">
+                Logout
+              </a>
             </div>
-    </main>
-
-    <footer class="bg-gray-200 py-4 mt-8">
-        <div class="container mx-auto px-4 text-center text-gray-600">
-            &copy; 2024 Dashboard App
+          </div>
         </div>
-    </footer>
+      </nav>
+    </div>
+  </header>
 
-    <script>
-        const profileBtn = document.getElementById('profile-btn');
-        const profileDropdown = document.getElementById('profile-dropdown');
+  <!-- Main -->
+  <main class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Selamat Datang, {{ current_user.username }}</h2>
 
-        profileBtn.addEventListener('click', () => {
-            profileDropdown.classList.toggle('hidden');
-        });
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="space-y-2 mb-6">
+          {% for category, msg in messages %}
+            <div class="px-4 py-2 rounded 
+                        {{ 'bg-green-100 text-green-800' if category=='success' else 
+                           category=='info'   and 'bg-blue-100 text-blue-800' or
+                           'bg-red-100 text-red-800' }}">
+              {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
-        document.addEventListener('click', (event) => {
-            if (!profileDropdown.contains(event.target) && !profileBtn.contains(event.target)) {
-                profileDropdown.classList.add('hidden');
-            }
-        });
-    </script>
+    <!-- Form Prediksi -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Buat Prediksi</h3>
+      <form action="{{ url_for('predict') }}" method="post" class="space-y-4">
+        <div>
+          <label class="block text-gray-700">Nilai Ujian</label>
+          <input type="number" name="nilai_ujian" step="0.1" required class="w-full border rounded px-3 py-2"/>
+        </div>
+        <div>
+          <label class="block text-gray-700">Kehadiran (%)</label>
+          <input type="number" name="kehadiran" step="0.1" required class="w-full border rounded px-3 py-2"/>
+        </div>
+        <div>
+          <label class="block text-gray-700">Keaktifan (%)</label>
+          <input type="number" name="keaktifan" step="0.1" required class="w-full border rounded px-3 py-2"/>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          Prediksi
+        </button>
+      </form>
+    </div>
+
+    <!-- Riwayat Prediksi -->
+    {% if history %}
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Riwayat Prediksi</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full table-auto">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="px-4 py-2">Waktu</th>
+                <th class="px-4 py-2">Nilai Ujian</th>
+                <th class="px-4 py-2">Kehadiran</th>
+                <th class="px-4 py-2">Keaktifan</th>
+                <th class="px-4 py-2">Hasil</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in history %}
+                <tr class="border-t">
+                  <td class="px-4 py-2">{{ p.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                  <td class="px-4 py-2">{{ p.nilai_ujian }}</td>
+                  <td class="px-4 py-2">{{ p.kehadiran }}</td>
+                  <td class="px-4 py-2">{{ p.keaktifan }}</td>
+                  <td class="px-4 py-2 font-semibold {{ 'text-green-600' if p.result=='Lulus' else 'text-red-600' }}">
+                    {{ p.result }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {% endif %}
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-200 py-4 mt-8">
+    <div class="container mx-auto px-4 text-center text-gray-600">
+      &copy; 2024 Dashboard App
+    </div>
+  </footer>
+
+  <script>
+    const profileBtn = document.getElementById('profile-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    profileBtn.addEventListener('click', () => profileDropdown.classList.toggle('hidden'));
+    document.addEventListener('click', e => {
+      if (!profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+        profileDropdown.classList.add('hidden');
+      }
+    });
+  </script>
 </body>
 </html>
