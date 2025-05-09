@@ -16,10 +16,10 @@
             border-radius: 5px;
         }
         .lulus-box {
-            background-color: #A5D6A7; /* Green for Lulus */
+            background-color: #388E3C; /* Green for Lulus */
         }
         .gagal-box {
-            background-color: #FFCDD2; /* Red for Tidak Lulus */
+            background-color: #D32F2F; /* Red for Tidak Lulus */
         }
     </style>
 </head>
@@ -75,7 +75,7 @@
                 datasets: [{
                     label: 'Prediksi Kelulusan',  // Label for the dataset
                     data: [{{ pass_count }}, {{ fail_count }}],  // Data for Lulus and Tidak Lulus
-                    backgroundColor: ['#A5D6A7', '#FFCDD2'],  // Green for Lulus, Red for Tidak Lulus
+                    backgroundColor: ['#388E3C', '#D32F2F'],  // Green for Lulus, Red for Tidak Lulus
                     borderColor: ['#388E3C', '#D32F2F'],
                     borderWidth: 1
                 }]
@@ -90,12 +90,12 @@
                                 return [
                                     {
                                         text: 'Lulus',
-                                        fillStyle: '#A5D6A7',  // Green for Lulus
+                                        fillStyle: '#388E3C',  // Green for Lulus
                                         strokeStyle: '#388E3C'
                                     },
                                     {
                                         text: 'Tidak Lulus',
-                                        fillStyle: '#FFCDD2',  // Red for Tidak Lulus
+                                        fillStyle: '#D32F2F',  // Red for Tidak Lulus
                                         strokeStyle: '#D32F2F'
                                     }
                                 ];
