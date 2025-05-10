@@ -31,37 +31,21 @@
 <main class="container mx-auto px-4 py-8">
     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Selamat Datang, {{ current_user.username }}</h2>
 
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <div class="space-y-2 mb-6">
-        {% for category, msg in messages %}
-            <div class="px-4 py-2 rounded 
-                    {{ 'bg-green-100 text-green-800' if category=='success' else 
-                    category=='info'   and 'bg-blue-100 text-blue-800' or
-                    'bg-red-100 text-red-800' }}">
-            {{ msg }}
-            </div>
-        {% endfor %}
-        </div>
-    {% endif %}
-    {% endwith %}
-
     <!-- Form Prediksi -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Buat Prediksi</h3>
         <form action="{{ url_for('predict') }}" method="post" class="space-y-4">
             <div>
                 <label class="block text-gray-700">Nilai Ujian</label>
-                <input type="number" name="nilai_ujian" required class="w-full border rounded px-3 py-2"/>
+                <input type="number" name="nilai_ujian" step="0.01" min="0" max="100" required class="w-full border rounded px-3 py-2"/>
             </div>
             <div>
                 <label class="block text-gray-700">Kehadiran (%)</label>
-                <input type="number" name="kehadiran" required class="w-full border rounded px-3 py-2"/>
+                <input type="number" name="kehadiran" step="0.01" min="0" max="100" required class="w-full border rounded px-3 py-2"/>
             </div>
             <div>
                 <label class="block text-gray-700">Keaktifan (%)</label>
-                <input type="number" name="keaktifan" required class="w-full border rounded px-3 py-2"/>
+                <input type="number" name="keaktifan" step="0.01" min="0" max="100" required class="w-full border rounded px-3 py-2"/>
             </div>
             <button type="submit" class="button px-4 py-2 rounded hover:bg-green-500 transition">
                 Prediksi
@@ -69,10 +53,13 @@
         </form>
 
         {% if result %}
-        <div class="mt-6">
-            <h4 class="text-xl font-semibold text-gray-800">Prediksi Anda:</h4>
-            <p class="text-lg font-bold {{ 'text-green-600' if result == 'Lulus' else 'text-red-600' }}">
+        <div class="mt-6 p-4 rounded-lg {{ 'bg-green-100' if result == 'Lulus' else 'bg-red-100' }}">
+            <h4 class="text-xl font-semibold text-gray-800 mb-2">Prediksi Anda:</h4>
+            <p class="text-2xl font-bold {{ 'text-green-600' if result == 'Lulus' else 'text-red-600' }}">
                 {{ result }}
+            </p>
+            <p class="mt-2 text-sm {{ 'text-green-700' if result == 'Lulus' else 'text-red-700' }}">
+                {{ 'Selamat! Anda diprediksi akan lulus.' if result == 'Lulus' else 'Anda perlu meningkatkan nilai untuk lulus.' }}
             </p>
         </div>
         {% endif %}
