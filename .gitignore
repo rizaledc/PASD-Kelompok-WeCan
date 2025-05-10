@@ -9,6 +9,8 @@ venv/
 # Ignore environment variables
 .env
 
+app/__pycache__
+
 # Ignore machine-specific files
 *.DS_Store
 *.log
