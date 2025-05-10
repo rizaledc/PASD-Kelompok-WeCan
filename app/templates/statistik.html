@@ -16,24 +16,22 @@
             border-radius: 5px;
         }
         .lulus-box {
-            background-color: #A5D6A7; /* Green for Lulus */
+            background-color:rgb(37, 129, 40); /* Darker Green */
         }
         .gagal-box {
-            background-color: #FFCDD2; /* Red for Tidak Lulus */
+            background-color:rgb(179, 26, 41); /* Darker Red */
         }
     </style>
 </head>
 <body>
 
-<!-- Header with Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="{{ url_for('home') }}">Statistik</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('home') }}">Dashboard</a> <!-- Added Dashboard menu link -->
-                </li>
+                    <a class="nav-link" href="{{ url_for('home') }}">Dashboard</a> </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ url_for('statistik') }}">Statistik</a>
                 </li>
@@ -51,7 +49,6 @@
 <div class="container mt-5">
     <h1>Statistik Kelulusan</h1>
 
-    <!-- Display the boxes for Lulus and Tidak Lulus counts -->
     <div class="mb-4">
         <div class="box lulus-box">
             Lulus: {{ pass_count }}
@@ -61,7 +58,6 @@
         </div>
     </div>
 
-    <!-- Grafik Statistik Lulus/Tidak Lulus -->
     <div>
         <canvas id="statistikChart" width="400" height="200"></canvas>
     </div>
@@ -73,11 +69,10 @@
             data: {
                 labels: ['Lulus', 'Tidak Lulus'],
                 datasets: [{
-                    label: 'Prediksi Kelulusan',  // Label for the dataset
-                    data: [{{ pass_count }}, {{ fail_count }}],  // Data for Lulus and Tidak Lulus
-                    backgroundColor: ['#A5D6A7', '#FFCDD2'],  // Green for Lulus, Red for Tidak Lulus
-                    borderColor: ['#388E3C', '#D32F2F'],
-                    borderWidth: 1
+                    label: 'Prediksi Kelulusan',
+                    data: [{{ pass_count }}, {{ fail_count }}],
+                    backgroundColor: ['rgb(37, 129, 40)', 'rgb(179, 26, 41)'], /* Bolder Green and Red */
+                    borderWidth: 0 /* No border */
                 }]
             },
             options: {
@@ -85,18 +80,16 @@
                 plugins: {
                     legend: {
                         labels: {
-                            color: 'black', // Color of legend text
+                            color: 'black',
                             generateLabels: function(chart) {
                                 return [
                                     {
                                         text: 'Lulus',
-                                        fillStyle: '#A5D6A7',  // Green for Lulus
-                                        strokeStyle: '#388E3C'
+                                        fillStyle: 'rgb(37, 129, 40)' /* Bolder Green for legend */
                                     },
                                     {
                                         text: 'Tidak Lulus',
-                                        fillStyle: '#FFCDD2',  // Red for Tidak Lulus
-                                        strokeStyle: '#D32F2F'
+                                        fillStyle: 'rgb(179, 26, 41)' /* Bolder Red for legend */
                                     }
                                 ];
                             }
@@ -108,13 +101,13 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Jumlah Data'  // Y-axis label
+                            text: 'Jumlah Data'
                         }
                     },
                     x: {
                         title: {
                             display: true,
-                            text: 'Prediksi Kelulusan'  // X-axis label
+                            text: 'Prediksi Kelulusan'
                         }
                     }
                 }
