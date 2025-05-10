@@ -80,10 +80,18 @@ def logout():
 @login_required
 def predict():
     try:
+        ## FOR DATABASE INPUT ##
+        nama = str(request.form['nama'])
+        nim = int(request.form['nim'])
+        
+        ## FOR MODEL PREDICTION ##
         nilai_ujian = float(request.form['nilai_ujian'])
         kehadiran = float(request.form['kehadiran'])
         keaktifan = float(request.form['keaktifan'])
-
+        
+    ### CALL THE MACHINE LEARNING MODEL HERE ###
+    ### PLEASEEE IMPLEMENT THIS PART ###
+    
         if not (1 <= nilai_ujian <= 100 and 1 <= kehadiran <= 100 and 1 <= keaktifan <= 100):
             flash('Silahkan masukan angka/persentasi 1-100', 'danger')
             return redirect(url_for('home'))
@@ -92,6 +100,8 @@ def predict():
 
         prediction = PredictionHistory(
             user_id=current_user.id,
+            nama=nama,
+            nim=nim,
             nilai_ujian=nilai_ujian,
             kehadiran=kehadiran,
             keaktifan=keaktifan,

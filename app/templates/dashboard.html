@@ -14,7 +14,6 @@
 </head>
 <body class="bg-gray-100">
 
-<!-- Header -->
 <header class="bg-white shadow-md py-4">
     <div class="container mx-auto px-4 flex justify-between items-center">
         <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>
@@ -27,14 +26,20 @@
     </div>
 </header>
 
-<!-- Main -->
 <main class="container mx-auto px-4 py-8">
     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Selamat Datang, {{ current_user.username }}</h2>
 
-    <!-- Form Prediksi -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Buat Prediksi</h3>
         <form action="{{ url_for('predict') }}" method="post" class="space-y-4">
+            <div>
+                <label class="block text-gray-700">Nama</label>
+                <input type="text" name="nama" required class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label class="block text-gray-700">NIM</label>
+                <input type="text" name="nim" required class="w-full border rounded px-3 py-2"/>
+            </div>
             <div>
                 <label class="block text-gray-700">Nilai Ujian</label>
                 <input type="number" name="nilai_ujian" step="0.01" min="0" max="100" required class="w-full border rounded px-3 py-2"/>
@@ -66,7 +71,6 @@
     </div>
 </main>
 
-<!-- Footer -->
 <footer class="bg-gray-200 py-4 mt-8">
     <div class="container mx-auto px-4 text-center text-gray-600">
         &copy; 2025 Prediksi Kelulusan. Semua hak cipta dilindungi
