@@ -3,6 +3,14 @@ from app import app, db
 from app.models import User, PredictionHistory
 from flask_login import login_user, login_required, current_user, logout_user
 import re  # Untuk validasi password
+import joblib  # or use 'import pickle' if you used pickle
+import numpy as np
+import os
+import sklearn
+
+##Call model.pkl for predict##
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'ml_model', 'model.pkl')
+model = joblib.load(MODEL_PATH)# Load your model here
 
 # Halaman utama (dashboard)
 @app.route('/')
@@ -80,18 +88,30 @@ def logout():
 @login_required
 def predict():
     try:
-        nilai_ujian = float(request.form['nilai_ujian'])
-        kehadiran = float(request.form['kehadiran'])
-        keaktifan = float(request.form['keaktifan'])
+        ## FOR DATABASE INPUT ##
+        nama = str(request.form['nama'])
+        nim = int(request.form['nim'])
 
+        ## FOR MODEL PREDICTION ##
+        nilai_ujian = float(request.form['nilai_ujian'].replace(',', '.'))
+        kehadiran = float(request.form['kehadiran'].replace(',', '.'))
+        keaktifan = float(request.form['keaktifan'].replace(',', '.'))
+
+        # Check value ranges
         if not (1 <= nilai_ujian <= 100 and 1 <= kehadiran <= 100 and 1 <= keaktifan <= 100):
             flash('Silahkan masukan angka/persentasi 1-100', 'danger')
             return redirect(url_for('home'))
 
-        result = "Lulus" if nilai_ujian >= 60 else "Tidak Lulus"
+        ### 🔍 Call the machine learning model ###
+        features = np.array([[nilai_ujian, kehadiran, keaktifan]])
+        prediction_raw = model.predict(features)[0]  # returns 0 or 1
+        result = "Lulus" if prediction_raw == 1 else "Tidak Lulus"
 
+        ### 🧾 Save to database ###
         prediction = PredictionHistory(
             user_id=current_user.id,
+            nama=nama,
+            nim=nim,
             nilai_ujian=nilai_ujian,
             kehadiran=kehadiran,
             keaktifan=keaktifan,
@@ -104,8 +124,10 @@ def predict():
         return render_template('dashboard.html', result=result)
 
     except Exception as e:
+        print(f'Error during prediction: {e}')  # For debugging
         flash('Terjadi kesalahan saat melakukan prediksi.', 'danger')
         return redirect(url_for('home'))
+
 
 # Halaman Statistik
 @app.route('/statistik')
@@ -122,10 +144,10 @@ def statistik():
     pass_percentage = (pass_count / len(predictions)) * 100 if predictions else 0
 
     return render_template('statistik.html', 
-                           avg_score=avg_score, 
-                           pass_percentage=pass_percentage,
-                           pass_count=pass_count, 
-                           fail_count=fail_count)
+                        avg_score=avg_score, 
+                        pass_percentage=pass_percentage,
+                        pass_count=pass_count, 
+                        fail_count=fail_count)
 
 # Halaman Profil
 @app.route('/profile')
