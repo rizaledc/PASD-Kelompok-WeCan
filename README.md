@@ -149,6 +149,7 @@ Berikut adalah daftar tugas yang sedang atau akan dikerjakan:
 ## Kontributor
 
 Proyek ini dikembangkan oleh Kelompok WeCan:
+- Admin 
 - [Rizal Wahyu Pratama] - [Fitur registrasi]
 - [Khulika Malkan] - [Peran/Kontribusi]
 - [Mikhael Setia Budi] - [Peran/Kontribusi]
