@@ -2,79 +2,126 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Statistik Mahasiswa</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistik Kelulusan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        /* Jika ada tombol khusus untuk halaman statistik, bisa ditambahkan di sini */
-        /* .button { background-color: #a5d6a7; color: #2c6d2f; } */
-        /* .button:hover { background-color: #81c784; } */
+        .box {
+            display: inline-block;
+            padding: 10px;
+            margin: 10px;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .lulus-box {
+            background-color: #388E3C;
+        }
+        .gagal-box {
+            background-color: #D32F2F;
+        }
     </style>
 </head>
-<body class="bg-gray-100">
+<body>
 
-<header class="bg-white shadow-md py-4">
-    <div class="container mx-auto px-4 flex justify-between items-center">
-        <h1 class="text-xl font-semibold text-gray-800">Statistik Mahasiswa</h1>
-        <nav class="space-x-6 flex items-center ml-auto">
-            <a href="{{ url_for('statistik') }}" class="text-blue-600 font-semibold transition">Statistik</a> <a href="{{ url_for('logout') }}" class="text-red-600 hover:text-red-800 transition">Logout</a>
-        </nav>
-    </div>
-</header>
-
-<main class="container mx-auto px-4 py-8">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Selamat Datang, {{ current_user.username }}</h2>
-
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Data Statistik</h3>
-        
-        <div class="mt-4">
-            <p class="text-gray-700">
-                Grafik dan data statistik akan ditampilkan di area ini.
-                Misalnya, Anda bisa menampilkan distribusi nilai, tren kehadiran, atau perbandingan keaktifan.
-            </p>
-            <div class="mt-6 border border-gray-200 rounded-lg p-4">
-                <h4 class="font-semibold text-gray-800">Contoh Grafik Distribusi Nilai Ujian</h4>
-                <div class="bg-gray-200 h-64 mt-2 flex items-center justify-center">
-                    <p class="text-gray-500">[Placeholder Grafik]</p>
-                </div>
-            </div>
-            <div class="mt-6 border border-gray-200 rounded-lg p-4">
-                <h4 class="font-semibold text-gray-800">Contoh Tabel Rata-rata Kehadiran per Angkatan</h4>
-                <table class="min-w-full bg-white mt-2">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="py-2 px-4 border-b">Angkatan</th>
-                            <th class="py-2 px-4 border-b">Rata-rata Kehadiran (%)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="py-2 px-4 border-b text-center">2021</td>
-                            <td class="py-2 px-4 border-b text-center">85.5%</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b text-center">2022</td>
-                            <td class="py-2 px-4 border-b text-center">88.2%</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b text-center">2023</td>
-                            <td class="py-2 px-4 border-b text-center">90.1%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+<!-- Header with Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('home') }}">Statistik</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">Dashboard</a> <!-- Added Dashboard menu link -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('statistik') }}">Statistik</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('profile') }}">Profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
         </div>
     </div>
-</main>
+</nav>
 
-<footer class="bg-gray-200 py-4 mt-8">
-    <div class="container mx-auto px-4 text-center text-gray-600">
-        &copy; 2025 Prediksi Kelulusan. Semua hak cipta dilindungi
+<div class="container mt-5">
+    <h1>Statistik Kelulusan</h1>
+
+    <!-- Display the boxes for Lulus and Tidak Lulus counts -->
+    <div class="mb-4">
+        <div class="box lulus-box">
+            Lulus: {{ pass_count }}
+        </div>
+        <div class="box gagal-box">
+            Tidak Lulus: {{ fail_count }}
+        </div>
     </div>
-</footer>
+
+    <!-- Grafik Statistik Lulus/Tidak Lulus -->
+    <div>
+        <canvas id="statistikChart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('statistikChart').getContext('2d');
+        var statistikChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Lulus', 'Tidak Lulus'],
+                datasets: [{
+                    label: 'Prediksi Kelulusan',  // Label for the dataset
+                    data: [{{ pass_count }}, {{ fail_count }}],  // Data for Lulus and Tidak Lulus
+                    backgroundColor: ['#388E3C', '#D32F2F'],  // Green for Lulus, Red for Tidak Lulus
+                    borderColor: ['#388E3C', '#D32F2F'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'black', // Color of legend text
+                            generateLabels: function(chart) {
+                                return [
+                                    {
+                                        text: 'Lulus',
+                                        fillStyle: '#388E3C',  // Green for Lulus
+                                        strokeStyle: '#388E3C'
+                                    },
+                                    {
+                                        text: 'Tidak Lulus',
+                                        fillStyle: '#D32F2F',  // Red for Tidak Lulus
+                                        strokeStyle: '#D32F2F'
+                                    }
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Jumlah Data'  // Y-axis label
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Prediksi Kelulusan'  // X-axis label
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</div>
 
 </body>
 </html>
