@@ -4,16 +4,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # Model Pengguna
 class User(UserMixin, db.Model):
-    __tablename__ = 'user_tb'
+    __tablename__ = 'user_tb'  # Nama tabel yang akan digunakan di database
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
     def set_password(self, password):
-        """Mengenkripsi passw
-        
-        ord."""
+        """Mengenkripsi password."""
         self.password = generate_password_hash(password)
 
     def check_password(self, password):
@@ -21,10 +19,12 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password, password)
 
 
-# Model Riwayat Prediksi
+# Model Riwayat Prediksi (PredictionHistory)
 class PredictionHistory(db.Model):
+    __tablename__ = 'prediction_history'  # Nama tabel yang akan digunakan di database
+
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user_tb.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user_tb.id'), nullable=False)  # Relasi ke tabel User
     nama = db.Column(db.String(255), nullable=False)
     nim = db.Column(db.Integer, nullable=False)
     nilai_ujian = db.Column(db.Float, nullable=False)
@@ -32,4 +32,4 @@ class PredictionHistory(db.Model):
     keaktifan = db.Column(db.Float, nullable=False)
     result = db.Column(db.String(100), nullable=False)
 
-    user = db.relationship('User', backref='predictions', lazy=True)
+    user = db.relationship('User', backref='predictions', lazy=True)  # Relasi balik ke model User
