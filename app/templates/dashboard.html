@@ -1,76 +1,131 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <!-- Pengaturan karakter dan viewport -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard</title>
+
+    <!-- Import Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Import font Inter dari Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styling tambahan -->
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .button { background-color: #a5d6a7; color: #2c6d2f; }
-        .button:hover { background-color: #81c784; }
+
+        /* Tombol submit dengan warna hijau */
+        .button { 
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.1em;
+            padding: 8px 16px;
+        }
+
+        /* Warna saat tombol di-hover */
+        .button:hover { 
+            background-color: #3e8e41;
+        }
+
+        /* Kotak hasil prediksi muncul di pojok kanan atas */
+        .prediction-box {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 200px;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
 
-<header class="bg-white shadow-md py-4">
+<!-- Header navbar berwarna biru tua -->
+<header class="bg-[#1e40af] shadow-md py-4">
     <div class="container mx-auto px-4 flex justify-between items-center">
-        <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>
+        <!-- Judul halaman -->
+        <h1 class="text-xl font-semibold text-white">Dashboard</h1>
+        
+        <!-- Navigasi ke halaman lain -->
         <nav class="space-x-6 flex items-center ml-auto">
-            <a href="{{ url_for('home') }}" class="text-gray-700 hover:text-blue-600 transition">Dashboard</a>
-            <a href="{{ url_for('statistik') }}" class="text-gray-700 hover:text-blue-600 transition">Statistik</a>
-            <a href="{{ url_for('profile') }}" class="text-gray-700 hover:text-blue-600 transition">Profil</a>
-            <a href="{{ url_for('logout') }}" class="text-red-600 hover:text-red-800 transition">Logout</a>
+            <a href="{{ url_for('home') }}" class="text-blue-200 hover:text-white transition">Dashboard</a>
+            <a href="{{ url_for('statistik') }}" class="text-blue-200 hover:text-white transition">Statistik</a>
+            <a href="{{ url_for('profile') }}" class="text-blue-200 hover:text-white transition">Profil</a>
+            <a href="{{ url_for('logout') }}" class="text-red-400 hover:text-red-200 transition font-medium">Logout</a>
         </nav>
     </div>
 </header>
 
-<main class="container mx-auto px-4 py-8">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Selamat Datang, {{ current_user.username }}</h2>
+<!-- Konten utama halaman -->
+<main class="container mx-auto px-4 py-8 relative">
+    <!-- Sapaan selamat datang kepada user -->
+    <h2 class="text-2xl font-semibold text-gray-800 inline-block">Selamat Datang,</h2>
+    <h2 class="text-2xl font-semibold text-gray-800 inline-block ml-2">{{ current_user.username }}</h2>
 
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <!-- Form input untuk melakukan prediksi -->
+    <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-8 mb-8 mt-4">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Buat Prediksi</h3>
+        
+        <!-- Formulir data yang dikirim ke server -->
         <form action="{{ url_for('predict') }}" method="post" class="space-y-4">
+            <!-- Input nama -->
             <div>
                 <label class="block text-gray-700">Nama</label>
-                <input type="text" name="nama" required class="w-full border rounded px-3 py-2"/>
+                <input type="text" name="nama" placeholder="Masukkan nama" required 
+                       class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
             </div>
+
+            <!-- Input NIM -->
             <div>
                 <label class="block text-gray-700">NIM</label>
-                <input type="text" name="nim" required class="w-full border rounded px-3 py-2"/>
+                <input type="text" name="nim" placeholder="Masukkan NIM" required 
+                       class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
             </div>
+
+            <!-- Input nilai ujian -->
             <div>
                 <label class="block text-gray-700">Nilai Ujian</label>
-                <input type="number" name="nilai_ujian" step="0.01" min="0" max="100" required class="w-full border rounded px-3 py-2"/>
+                <input type="number" name="nilai_ujian" step="0.01" min="0" max="100" placeholder="0 – 100" required 
+                       class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
             </div>
+
+            <!-- Input kehadiran -->
             <div>
                 <label class="block text-gray-700">Kehadiran (%)</label>
-                <input type="number" name="kehadiran" step="0.01" min="0" max="100" required class="w-full border rounded px-3 py-2"/>
+                <input type="number" name="kehadiran" step="0.01" min="0" max="100" placeholder="0 – 100" required 
+                       class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
             </div>
+
+            <!-- Input keaktifan -->
             <div>
                 <label class="block text-gray-700">Keaktifan (%)</label>
-                <input type="number" name="keaktifan" step="0.01" min="0" max="100" required class="w-full border rounded px-3 py-2"/>
+                <input type="number" name="keaktifan" step="0.01" min="0" max="100" placeholder="0 – 100" required 
+                       class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
             </div>
-            <button type="submit" class="button px-4 py-2 rounded hover:bg-green-500 transition">
+
+            <!-- Tombol untuk mengirim inputan yang diminta -->
+            <button type="submit" class="button rounded transition">
                 Prediksi
             </button>
         </form>
-
-        {% if result %}
-        <div class="mt-6 p-4 rounded-lg {{ 'bg-green-100' if result == 'Lulus' else 'bg-red-100' }}">
-            <h4 class="text-xl font-semibold text-gray-800 mb-2">Prediksi Anda:</h4>
-            <p class="text-2xl font-bold {{ 'text-green-600' if result == 'Lulus' else 'text-red-600' }}">
-                {{ result }}
-            </p>
-            <p class="mt-2 text-sm {{ 'text-green-700' if result == 'Lulus' else 'text-red-700' }}">
-                {{ 'Selamat! Anda diprediksi akan lulus.' if result == 'Lulus' else 'Anda perlu meningkatkan nilai untuk lulus.' }}
-            </p>
-        </div>
-        {% endif %}
     </div>
+
+    <!-- Kotak hasil prediksi yang akan muncul setelah submit -->
+    {% if result %}
+    <div class="prediction-box bg-white rounded-lg shadow-md p-4 {{ 'border-green-500 border-2' if result == 'Lulus' else 'border-red-500 border-2' }}">
+        <h4 class="text-lg font-semibold text-gray-800 mb-1">Hasil Prediksi:</h4>
+        <p class="text-2xl font-bold {{ 'text-green-600' if result == 'Lulus' else 'text-red-600' }}">
+            {{ result }}
+        </p>
+        <p class="mt-1 text-sm {{ 'text-green-700' if result == 'Lulus' else 'text-red-700' }}">
+            {{ 'Selamat! Anda diprediksi lulus.' if result == 'Lulus' else 'Perlu peningkatan.' }}
+        </p>
+    </div>
+    {% endif %}
 </main>
 
+<!-- Footer halaman -->
 <footer class="bg-gray-200 py-4 mt-8">
     <div class="container mx-auto px-4 text-center text-gray-600">
         &copy; 2025 Prediksi Kelulusan. Semua hak cipta dilindungi
