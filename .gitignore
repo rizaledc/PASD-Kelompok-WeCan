@@ -2,7 +2,9 @@
 __pycache__/
 *.py[cod]
 *.pyc
-
+*.cpython-312.pyc
+*.cpython-313.pyc
+*.cpython-311.pyc
 
 # Ignore virtual environments
 venv/

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistik Kelulusan</title>
+    <title>Dashboard Mahasiswa - Prediksi Kelulusan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -16,10 +16,36 @@
             border-radius: 5px;
         }
         .lulus-box {
-            background-color: #388E3C;
+            background-color: #388E3C; /* Green for Lulus */
         }
         .gagal-box {
-            background-color: #D32F2F;
+            background-color: #D32F2F; /* Red for Tidak Lulus */
+        }
+        .statistik-section {
+            margin-top: 2rem;
+            padding: 2rem;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        .table-responsive {
+            margin-top: 1rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .table {
+            margin-bottom: 0;
+        }
+        .table thead th {
+            position: sticky;
+            top: 0;
+            background-color: #343a40;
+            color: white;
+        }
+        .table-success {
+            background-color: rgba(56, 142, 60, 0.1) !important;
+        }
+        .table-danger {
+            background-color: rgba(211, 47, 47, 0.1) !important;
         }
     </style>
 </head>
@@ -28,14 +54,14 @@
 <!-- Header with Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="{{ url_for('home') }}">Statistik</a>
+        <a class="navbar-brand" href="{{ url_for('home') }}">Dashboard</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('home') }}">Dashboard</a> <!-- Added Dashboard menu link -->
+                    <a class="nav-link active" href="{{ url_for('home') }}">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ url_for('statistik') }}">Statistik</a>
+                    <a class="nav-link" href="{{ url_for('statistik') }}">Statistik</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('profile') }}">Profil</a>
@@ -49,78 +75,116 @@
 </nav>
 
 <div class="container mt-5">
-    <h1>Statistik Kelulusan</h1>
-
-    <!-- Display the boxes for Lulus and Tidak Lulus counts -->
-    <div class="mb-4">
-        <div class="box lulus-box">
-            Lulus: {{ pass_count }}
+    <h1>Dashboard Mahasiswa</h1>
+    
+    <!-- Statistik Section -->
+    <div class="statistik-section">
+        <h2>Statistik Kelulusan</h2>
+        
+        <!-- Display the boxes for Lulus and Tidak Lulus counts -->
+        <div class="mb-4">
+            <div class="box lulus-box">
+                Lulus: {{ pass_count }}
+            </div>
+            <div class="box gagal-box">
+                Tidak Lulus: {{ fail_count }}
+            </div>
         </div>
-        <div class="box gagal-box">
-            Tidak Lulus: {{ fail_count }}
+
+        <!-- Grafik Statistik Lulus/Tidak Lulus -->
+        <div>
+            <canvas id="statistikChart" width="400" height="200"></canvas>
         </div>
-    </div>
 
-    <!-- Grafik Statistik Lulus/Tidak Lulus -->
-    <div>
-        <canvas id="statistikChart" width="400" height="200"></canvas>
-    </div>
-
-    <script>
-        var ctx = document.getElementById('statistikChart').getContext('2d');
-        var statistikChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Lulus', 'Tidak Lulus'],
-                datasets: [{
-                    label: 'Prediksi Kelulusan',  // Label for the dataset
-                    data: [{{ pass_count }}, {{ fail_count }}],  // Data for Lulus and Tidak Lulus
-                    backgroundColor: ['#388E3C', '#D32F2F'],  // Green for Lulus, Red for Tidak Lulus
-                    borderColor: ['#388E3C', '#D32F2F'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: 'black', // Color of legend text
-                            generateLabels: function(chart) {
-                                return [
-                                    {
-                                        text: 'Lulus',
-                                        fillStyle: '#388E3C',  // Green for Lulus
-                                        strokeStyle: '#388E3C'
-                                    },
-                                    {
-                                        text: 'Tidak Lulus',
-                                        fillStyle: '#D32F2F',  // Red for Tidak Lulus
-                                        strokeStyle: '#D32F2F'
-                                    }
-                                ];
+        <script>
+            var ctx = document.getElementById('statistikChart').getContext('2d');
+            var statistikChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Lulus', 'Tidak Lulus'],
+                    datasets: [{
+                        label: 'Prediksi Kelulusan',
+                        data: [{{ pass_count }}, {{ fail_count }}],
+                        backgroundColor: ['#388E3C', '#D32F2F'],
+                        borderColor: ['#388E3C', '#D32F2F'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'black',
+                                generateLabels: function(chart) {
+                                    return [
+                                        {
+                                            text: 'Lulus',
+                                            fillStyle: '#388E3C',
+                                            strokeStyle: '#388E3C'
+                                        },
+                                        {
+                                            text: 'Tidak Lulus',
+                                            fillStyle: '#D32F2F',
+                                            strokeStyle: '#D32F2F'
+                                        }
+                                    ];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Jumlah Data'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Prediksi Kelulusan'
                             }
                         }
                     }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Jumlah Data'  // Y-axis label
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Prediksi Kelulusan'  // X-axis label
-                        }
-                    }
                 }
-            }
-        });
-    </script>
+            });
+        </script>
+    </div>
+
+    <!-- Leaderboard Section -->
+    <div class="statistik-section mt-4">
+        <h2>Leaderboard Mahasiswa</h2>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Peringkat</th>
+                        <th>Nama Mahasiswa</th>
+                        <th>Nilai Ujian</th>
+                        <th>Kehadiran</th>
+                        <th>Keaktifan</th>
+                        <th>Rata-rata</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in leaderboard %}
+                    <tr class="{% if student.status == 'Lulus' %}table-success{% else %}table-danger{% endif %}">
+                        <td>{{ loop.index }}</td>
+                        <td>{{ student.nama }}</td>
+                        <td>{{ student.nilai_ujian }}</td>
+                        <td>{{ student.kehadiran }}</td>
+                        <td>{{ student.keaktifan }}</td>
+                        <td>{{ "%.2f"|format(student.rata_rata) }}</td>
+                        <td>{{ student.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 </body>
