@@ -3,16 +3,16 @@ from app import app, db
 from app.models import User, PredictionHistory
 from flask_login import login_user, login_required, current_user, logout_user
 import re  # Untuk validasi password
-import joblib  # or use 'import pickle' if you used pickle
+import joblib  # Menggunakan joblib untuk memuat model
 import numpy as np
 import os
 import sklearn
 
-##Call model.pkl for predict##
+# Load model machine learning
 MODEL_PATH = os.path.join(os.path.dirname(__file__), 'ml_model', 'model.pkl')
-model = joblib.load(MODEL_PATH)# Load your model here
+model = joblib.load(MODEL_PATH)  # Memuat model untuk prediksi
 
-# Halaman utama (dashboard)
+# Halaman utama (Dashboard)
 @app.route('/')
 @login_required
 def home():
@@ -33,10 +33,7 @@ def login():
             login_user(user)
             return redirect(url_for('home'))
         else:
-            if not user:
-                flash('Username yang Anda masukkan salah.', 'danger')
-            else:
-                flash('Password yang Anda masukkan salah.', 'danger')
+            flash('Username atau password yang Anda masukkan salah.', 'danger')
 
     return render_template('login.html')
 
@@ -88,26 +85,26 @@ def logout():
 @login_required
 def predict():
     try:
-        ## FOR DATABASE INPUT ##
-        nama = str(request.form['nama'])
+        # Ambil data dari form input
+        nama = str(request.form['nama']).strip()  # Pastikan tidak ada spasi berlebih
         nim = int(request.form['nim'])
 
-        ## FOR MODEL PREDICTION ##
+        # Validasi nilai yang dimasukkan
         nilai_ujian = float(request.form['nilai_ujian'].replace(',', '.'))
         kehadiran = float(request.form['kehadiran'].replace(',', '.'))
         keaktifan = float(request.form['keaktifan'].replace(',', '.'))
 
-        # Check value ranges
+        # Validasi rentang nilai
         if not (1 <= nilai_ujian <= 100 and 1 <= kehadiran <= 100 and 1 <= keaktifan <= 100):
-            flash('Silahkan masukan angka/persentasi 1-100', 'danger')
+            flash('Silahkan masukkan angka/persentasi antara 1-100.', 'danger')
             return redirect(url_for('home'))
 
-        ### 🔍 Call the machine learning model ###
+        # Prediksi dengan model
         features = np.array([[nilai_ujian, kehadiran, keaktifan]])
-        prediction_raw = model.predict(features)[0]  # returns 0 or 1
+        prediction_raw = model.predict(features)[0]  # Menggunakan 0 atau 1
         result = "Lulus" if prediction_raw == 1 else "Tidak Lulus"
 
-        ### 🧾 Save to database ###
+        # Simpan data prediksi ke database
         prediction = PredictionHistory(
             user_id=current_user.id,
             nama=nama,
@@ -124,10 +121,9 @@ def predict():
         return render_template('dashboard.html', result=result)
 
     except Exception as e:
-        print(f'Error during prediction: {e}')  # For debugging
-        flash('Terjadi kesalahan saat melakukan prediksi.', 'danger')
+        print(f'Error during prediction: {e}')  # Untuk debugging
+        flash('Terjadi kesalahan saat melakukan prediksi. Pastikan semua input valid.', 'danger')
         return redirect(url_for('home'))
-
 
 # Halaman Statistik
 @app.route('/statistik')

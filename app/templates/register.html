@@ -180,7 +180,7 @@
                 });
             }
             if(kodeKonfirmasiInput && roleSelect) {
-                 kodeKonfirmasiInput.addEventListener('input', function() {
+                kodeKonfirmasiInput.addEventListener('input', function() {
                     // Hanya hapus custom validity jika peran dosen dan field tidak disabled
                     if(roleSelect.value === 'dosen' && !kodeKonfirmasiInput.disabled) { 
                         kodeKonfirmasiInput.setCustomValidity('');
