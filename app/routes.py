@@ -22,7 +22,11 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        # Jika user adalah dosen
+        if current_user.role == 'dosen':
+            return redirect(url_for('home'))  # Dashboard dosen (dashboard.html)
+        else:
+            return redirect(url_for('dashboard_mhs'))  # Dashboard mahasiswa (dashboardmhs.html)
 
     if request.method == 'POST':
         username = request.form['username']
@@ -31,7 +35,10 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             login_user(user)
-            return redirect(url_for('home'))
+            if user.role == 'dosen':
+                return redirect(url_for('home'))  # Dashboard dosen (dashboard.html)
+            else:
+                return redirect(url_for('dashboard_mhs'))  # Dashboard mahasiswa (dashboardmhs.html)
         else:
             if not user:
                 flash('Username yang Anda masukkan salah.', 'danger')
@@ -39,6 +46,7 @@ def login():
                 flash('Password yang Anda masukkan salah.', 'danger')
 
     return render_template('login.html')
+
 
 # Halaman register
 @app.route('/register', methods=['GET', 'POST'])
@@ -49,6 +57,8 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        role = request.form['role']
+        kode_dosen = request.form.get('kode_konfirmasi_dosen', '')
 
         # Validasi username: minimal 8 karakter dan unik
         if len(username) < 8:
@@ -64,8 +74,15 @@ def register():
             flash('Password harus terdiri dari minimal 8 karakter, dan mengandung angka dan huruf.', 'danger')
             return redirect(url_for('register'))
 
+        # Jika memilih dosen, pastikan kode dosen benar
+        if role == 'dosen':
+            if kode_dosen != 'DOSENTELYU':
+                flash('Kode dosen salah.', 'danger')
+                return redirect(url_for('register'))
+
         user = User(username=username)
         user.set_password(password)
+        user.role = role  # Menyimpan role (mahasiswa atau dosen)
 
         db.session.add(user)
         db.session.commit()
