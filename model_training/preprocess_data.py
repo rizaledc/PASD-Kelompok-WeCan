@@ -22,9 +22,5 @@ def preprocess_data(data):
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     
-<<<<<<< HEAD
-    return X_scaled, y
-=======
-    return X_scaled, y
 
->>>>>>> origin/main
+    return X_scaled, y

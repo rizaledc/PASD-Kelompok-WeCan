@@ -15,8 +15,5 @@ def evaluate_model(model, X_test, y_test):
     print(f"Akurasi: {accuracy * 100:.2f}%")
     print(f"Precision: {precision:.2f}")
     print(f"Recall: {recall:.2f}")
-<<<<<<< HEAD
+
     print(f"F1 Score: {f1:.2f}")
-=======
-    print(f"F1 Score: {f1:.2f}")
->>>>>>> origin/main
