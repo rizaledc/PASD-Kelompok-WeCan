@@ -1,6 +1,6 @@
 Register Fitur (Rizal)
 - Login dosen password : DOSENTELYU
-- 
+- routes.py
 
 
 Database (Mikhael)
