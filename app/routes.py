@@ -173,7 +173,7 @@ def leaderboard():
             .all()
 
         leaderboard_data_ranked = []
-        for i, prediction in enumerate(top_lulus_predictions):
+        for i, prediction in enumerate(top_lulus_predictions): 
             # Pastikan objek user ada sebelum mengakses username
             username = prediction.user.username if prediction.user else "N/A"
             leaderboard_data_ranked.append({
