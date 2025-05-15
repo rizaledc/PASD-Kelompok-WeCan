@@ -4,11 +4,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # Model Pengguna
 class User(UserMixin, db.Model):
-    __tablename__ = 'user_tb'  # Nama tabel yang akan digunakan di database
+    __tablename__ = 'user_tb'  # Nama tabel yang digunakan di database
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    isStudent = db.Column(db.Boolean, default=True)  # True untuk mahasiswa, False untuk dosen
+    kode_dosen = db.Column(db.String(255), nullable=True)  # Kolom untuk kode dosen, hanya untuk dosen
 
     def set_password(self, password):
         """Mengenkripsi password."""
@@ -17,7 +19,6 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         """Memverifikasi password."""
         return check_password_hash(self.password, password)
-
 
 # Model Riwayat Prediksi (PredictionHistory)
 class PredictionHistory(db.Model):
