@@ -6,17 +6,23 @@ import re  # Untuk validasi password
 import joblib  # Menggunakan joblib untuk memuat model
 import numpy as np
 import os
-import sklearn
 
 # Load model machine learning
 MODEL_PATH = os.path.join(os.path.dirname(__file__), 'ml_model', 'model.pkl')
 model = joblib.load(MODEL_PATH)  # Memuat model untuk prediksi
 
+# Kode Dosen Fix
+VALID_DOSEN_CODE = 'DOSENTELYU'  # Kode dosen tetap (fix)
+
 # Halaman utama (Dashboard)
 @app.route('/')
 @login_required
 def home():
-    return render_template('dashboard.html')
+    # Arahkan pengguna ke dashboard yang sesuai berdasarkan role mereka
+    if current_user.isStudent:  # Cek apakah mahasiswa
+        return render_template('dashboardmhs.html')  # Dashboard mahasiswa
+    else:
+        return render_template('dashboard.html')  # Dashboard dosen
 
 # Halaman login
 @app.route('/login', methods=['GET', 'POST'])
@@ -46,6 +52,9 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        role = request.form['role']  # Mengambil nilai role (mahasiswa atau dosen)
+        kode_dosen = request.form.get('kode_dosen', '').strip()  # Kode dosen jika memilih dosen
 
         # Validasi username: minimal 8 karakter dan unik
         if len(username) < 8:
@@ -61,7 +70,22 @@ def register():
             flash('Password harus terdiri dari minimal 8 karakter, dan mengandung angka dan huruf.', 'danger')
             return redirect(url_for('register'))
 
-        user = User(username=username)
+        # Validasi konfirmasi password
+        if password != confirm_password:
+            flash('Password dan konfirmasi password tidak cocok.', 'danger')
+            return redirect(url_for('register'))
+
+        # Set role dan kode dosen jika peran adalah dosen
+        if role == 'dosen':
+            if kode_dosen != VALID_DOSEN_CODE:  # Misalnya kode konfirmasi dosen adalah 'DOSENTELYU'
+                flash('Kode konfirmasi dosen salah.', 'danger')
+                return redirect(url_for('register'))
+            isStudent = False  # Jika dosen, set isStudent menjadi False
+        else:
+            isStudent = True  # Jika mahasiswa, set isStudent menjadi True
+
+        # Buat user baru
+        user = User(username=username, isStudent=isStudent)
         user.set_password(password)
 
         db.session.add(user)
