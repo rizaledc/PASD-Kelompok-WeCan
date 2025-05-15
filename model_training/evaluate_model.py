@@ -17,3 +17,4 @@ def evaluate_model(model, X_test, y_test):
     print(f"Recall: {recall:.2f}")
 
     print(f"F1 Score: {f1:.2f}")
+    # Mengembalikan hasil evaluasi dalam bentuk dictionary
