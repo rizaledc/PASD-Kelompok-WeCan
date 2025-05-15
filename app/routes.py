@@ -133,7 +133,8 @@ def predict():
 @app.route('/statistik')
 @login_required
 def statistik():
-    predictions = PredictionHistory.query.filter_by(user_id=current_user.id).all()
+    # Mengambil semua prediksi dari seluruh pengguna
+    predictions = PredictionHistory.query.all()
 
     # Menghitung jumlah lulus dan tidak lulus
     pass_count = sum([1 for p in predictions if p.result == 'Lulus'])
@@ -143,11 +144,20 @@ def statistik():
     avg_score = sum([p.nilai_ujian for p in predictions]) / len(predictions) if predictions else 0
     pass_percentage = (pass_count / len(predictions)) * 100 if predictions else 0
 
+    # Menghitung prediksi per pengguna
+    pass_pred = [p.result for p in predictions if p.result == 'Lulus']
+    fail_pred = [p.result for p in predictions if p.result == 'Tidak Lulus']
+
+    # Membuat data untuk chart (misalnya untuk total lulus dan tidak lulus)
     return render_template('statistik.html', 
                         avg_score=avg_score, 
                         pass_percentage=pass_percentage,
                         pass_count=pass_count, 
-                        fail_count=fail_count)
+                        fail_count=fail_count,
+                        total_predictions=len(predictions),
+                        pass_pred=pass_pred, 
+                        fail_pred=fail_pred)
+
 
 # Halaman Profil
 @app.route('/profile')

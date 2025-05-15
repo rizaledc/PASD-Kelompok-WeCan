@@ -32,7 +32,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('home') }}">Dashboard</a> <!-- Added Dashboard menu link -->
+                    <a class="nav-link" href="{{ url_for('home') }}">Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ url_for('statistik') }}">Statistik</a>
@@ -49,7 +49,7 @@
 </nav>
 
 <div class="container mt-5">
-    <h1>Statistik Kelulusan</h1>
+    <h1>Statistik Kelulusan (Seluruh Pengguna)</h1>
 
     <!-- Display the boxes for Lulus and Tidak Lulus counts -->
     <div class="mb-4">
@@ -73,9 +73,9 @@
             data: {
                 labels: ['Lulus', 'Tidak Lulus'],
                 datasets: [{
-                    label: 'Prediksi Kelulusan',  // Label for the dataset
-                    data: [{{ pass_count }}, {{ fail_count }}],  // Data for Lulus and Tidak Lulus
-                    backgroundColor: ['#388E3C', '#D32F2F'],  // Green for Lulus, Red for Tidak Lulus
+                    label: 'Prediksi Kelulusan',
+                    data: [{{ pass_count }}, {{ fail_count }}], // jumlah lulus dan tidak lulus
+                    backgroundColor: ['#388E3C', '#D32F2F'],
                     borderColor: ['#388E3C', '#D32F2F'],
                     borderWidth: 1
                 }]
@@ -85,21 +85,7 @@
                 plugins: {
                     legend: {
                         labels: {
-                            color: 'black', // Color of legend text
-                            generateLabels: function(chart) {
-                                return [
-                                    {
-                                        text: 'Lulus',
-                                        fillStyle: '#388E3C',  // Green for Lulus
-                                        strokeStyle: '#388E3C'
-                                    },
-                                    {
-                                        text: 'Tidak Lulus',
-                                        fillStyle: '#D32F2F',  // Red for Tidak Lulus
-                                        strokeStyle: '#D32F2F'
-                                    }
-                                ];
-                            }
+                            color: 'black'
                         }
                     }
                 },
@@ -108,19 +94,27 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Jumlah Data'  // Y-axis label
+                            text: 'Jumlah Data'
                         }
                     },
                     x: {
                         title: {
                             display: true,
-                            text: 'Prediksi Kelulusan'  // X-axis label
+                            text: 'Prediksi Kelulusan'
                         }
                     }
                 }
             }
         });
     </script>
+
+    <!-- Rata-rata Nilai Ujian dan Persentase Kelulusan -->
+    <div class="mt-4">
+        <p><strong>Rata-rata Nilai Ujian:</strong> {{ avg_score | round(2) }}</p>
+        <p><strong>Persentase Kelulusan:</strong> {{ pass_percentage | round(2) }}%</p>
+        <p><strong>Total Prediksi:</strong> {{ total_predictions }}</p>
+    </div>
+
 </div>
 
 </body>
