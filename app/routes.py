@@ -158,6 +158,7 @@ def statistik():
                         pass_pred=pass_pred, 
                         fail_pred=fail_pred)
 
+
 # Halaman Leaderboard
 @app.route('/leaderboard')
 @login_required
@@ -194,7 +195,6 @@ def leaderboard():
         app.logger.error(f"Leaderboard general error: {e}") # Untuk debugging di log server
         flash('Terjadi kesalahan saat memuat leaderboard.', 'danger')
         return render_template('leaderboard.html', leaderboard_data=[], error_message="Kesalahan server.")
-
 
 # Halaman Profil
 @app.route('/profile')
