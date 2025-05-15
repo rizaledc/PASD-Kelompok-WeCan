@@ -1,33 +1,10 @@
 # Ignore Python cache and compiled files
 __pycache__/
-*.py[cod]
 *.pyc
+
 
 # Ignore virtual environments
 venv/
 
 # Ignore environment variables
 .env
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-venv
-_pycache_
-venv
-=======
->>>>>>> Register-and-DB
-
-app/__pycache__
-
-# Ignore machine-specific files
-*.DS_Store
-*.log
-*.sqlite3
-
-# Ignore Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-<<<<<<< HEAD
-=======
->>>>>>> 550da78e8a3d2e6eb27fb8d31bb917826c6f156f
->>>>>>> Register-and-DB
