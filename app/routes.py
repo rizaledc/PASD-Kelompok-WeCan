@@ -169,6 +169,44 @@ def statistik():
                         pass_count=pass_count, 
                         fail_count=fail_count)
 
+# Halaman Leaderboard
+@app.route('/leaderboard')
+@login_required
+def leaderboard():
+    try:
+        # Mengambil top 10 prediksi dengan status "Lulus" dan nilai ujian tertinggi
+        top_lulus_predictions = PredictionHistory.query \
+            .options(db.joinedload(PredictionHistory.user)) \
+            .filter(PredictionHistory.result == "Lulus") \
+            .order_by(PredictionHistory.nilai_ujian.desc()) \
+            .limit(10) \
+            .all()
+
+        leaderboard_data_ranked = []
+        for i, prediction in enumerate(top_lulus_predictions): 
+            # Pastikan objek user ada sebelum mengakses username
+            username = prediction.user.username if prediction.user else "N/A"
+            leaderboard_data_ranked.append({
+                'rank': i + 1,  # Ranking berdasarkan urutan dari query
+                'username': username,
+                'nilai_ujian': prediction.nilai_ujian,
+                'kehadiran': prediction.kehadiran,
+                'keaktifan': prediction.keaktifan,
+                'result': prediction.result  # Ini akan selalu "Lulus" berdasarkan filter
+            })
+
+        return render_template('leaderboard.html', leaderboard_data=leaderboard_data_ranked)
+
+    except AttributeError as e:
+        app.logger.error(f"Leaderboard AttributeError: {e}") # Untuk debugging di log server
+        flash('Terjadi kesalahan saat mengambil data pengguna untuk leaderboard.', 'danger')
+        return render_template('leaderboard.html', leaderboard_data=[], error_message="Kesalahan data pengguna.")
+    except Exception as e:
+        app.logger.error(f"Leaderboard general error: {e}") # Untuk debugging di log server
+        flash('Terjadi kesalahan saat memuat leaderboard.', 'danger')
+        return render_template('leaderboard.html', leaderboard_data=[], error_message="Kesalahan server.")
+
+
 # Halaman Profil
 @app.route('/profile')
 @login_required
