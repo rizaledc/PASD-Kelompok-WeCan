@@ -85,6 +85,10 @@
                 hover:after:content-[''] hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:w-full hover:after:h-[2px] hover:after:bg-white">
                 Statistik
             </a>
+            <a href="{{ url_for('leaderboard') }}" class="text-blue-200 hover:text-white transition relative pb-1 
+                {% if request.endpoint == 'leaderboard' %}active-menu{% endif %} 
+                hover:after:content-[''] hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:w-full hover:after:h-[2px] hover:after:bg-white">
+                Leaderboard
             <a href="{{ url_for('profile') }}" class="text-blue-200 hover:text-white transition relative pb-1 
                 {% if request.endpoint == 'profile' %}active-menu{% endif %} 
                 hover:after:content-[''] hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:w-full hover:after:h-[2px] hover:after:bg-white">
