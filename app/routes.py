@@ -150,7 +150,6 @@ def predict():
         return redirect(url_for('home'))
 
 # Halaman Statistik
-# Halaman Statistik
 @app.route('/statistik')
 @login_required
 def statistik():
@@ -196,11 +195,12 @@ def leaderboard():
 
         leaderboard_data_ranked = []
         for i, prediction in enumerate(top_lulus_predictions): 
-            # Pastikan objek user ada sebelum mengakses username
-            username = prediction.user.username if prediction.user else "N/A"
+            # Ambil nama dari PredictionHistory, bukan username dari User
+            # Nama diambil dari PredictionHistory, yang diinput saat prediksi
+            nama = prediction.nama if prediction.nama else "N/A"
             leaderboard_data_ranked.append({
                 'rank': i + 1,  # Ranking berdasarkan urutan dari query
-                'username': username,
+                'nama': nama,  # Menampilkan nama yang diinputkan
                 'nilai_ujian': prediction.nilai_ujian,
                 'kehadiran': prediction.kehadiran,
                 'keaktifan': prediction.keaktifan,
@@ -210,14 +210,13 @@ def leaderboard():
         return render_template('leaderboard.html', leaderboard_data=leaderboard_data_ranked)
 
     except AttributeError as e:
-        app.logger.error(f"Leaderboard AttributeError: {e}") # Untuk debugging di log server
+        app.logger.error(f"Leaderboard AttributeError: {e}")  # Untuk debugging di log server
         flash('Terjadi kesalahan saat mengambil data pengguna untuk leaderboard.', 'danger')
         return render_template('leaderboard.html', leaderboard_data=[], error_message="Kesalahan data pengguna.")
     except Exception as e:
-        app.logger.error(f"Leaderboard general error: {e}") # Untuk debugging di log server
+        app.logger.error(f"Leaderboard general error: {e}")  # Untuk debugging di log server
         flash('Terjadi kesalahan saat memuat leaderboard.', 'danger')
         return render_template('leaderboard.html', leaderboard_data=[], error_message="Kesalahan server.")
-
 
 # Halaman Profil
 @app.route('/profile')

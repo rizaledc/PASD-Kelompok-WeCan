@@ -12,13 +12,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Atur font dan latar belakang halaman */
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(to right, #f0f4f8, #e2e8f0);
         }
 
-        /* Tambahan styling untuk menu yang sedang aktif (diberi garis bawah) */
         .active-menu {
             position: relative;
         }
@@ -82,7 +80,7 @@
                 <tr class="bg-gray-200">
                     <!-- Header kolom -->
                     <th class="px-4 py-2">Rank</th>
-                    <th class="px-4 py-2">Username</th>
+                    <th class="px-4 py-2">Nama</th> <!-- Changed Username to Nama -->
                     <th class="px-4 py-2">Nilai Ujian</th>
                     <th class="px-4 py-2">Kehadiran</th>
                     <th class="px-4 py-2">Keaktifan</th>
@@ -95,7 +93,7 @@
                     {% for data in leaderboard_data %}
                         <tr class="hover:bg-gray-100">
                             <td class="border px-4 py-2 text-center">{{ data.rank }}</td>
-                            <td class="border px-4 py-2 text-center">{{ data.username }}</td>
+                            <td class="border px-4 py-2 text-center">{{ data.nama }}</td> <!-- Display Nama instead of Username -->
                             <td class="border px-4 py-2 text-center">{{ data.nilai_ujian }}</td>
                             <td class="border px-4 py-2 text-center">{{ data.kehadiran }}</td>
                             <td class="border px-4 py-2 text-center">{{ data.keaktifan }}</td>
