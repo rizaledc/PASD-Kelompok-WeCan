@@ -1,86 +1,125 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <!-- Meta informasi dasar -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard - Prediksi Kelulusan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Load Tailwind CSS untuk styling responsif dan modern -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load font Inter dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        table {
+        /* Atur font dan latar belakang halaman */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to right, #f0f4f8, #e2e8f0);
+        }
+
+        /* Tambahan styling untuk menu yang sedang aktif (diberi garis bawah) */
+        .active-menu {
+            position: relative;
+        }
+
+        .active-menu::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
             width: 100%;
-            margin-top: 20px;
-        }
-        th, td {
-            text-align: center;
-        }
-        .table th, .table td {
-            vertical-align: middle;
+            height: 2px;
+            background-color: white;
+            transform: scaleX(1);
+            transition: transform 0.3s ease;
         }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="{{ url_for('home') }}">Dashboard</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('home') }}">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('statistik') }}">Statistik</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ url_for('leaderboard') }}">Leaderboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('profile') }}">Profil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                </li>
-            </ul>
-        </div>
+<!-- ======================= HEADER / NAVBAR ======================= -->
+<header class="bg-[#1e40af] shadow-md py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+        <!-- Judul halaman -->
+        <h1 class="text-3xl font-bold text-white">Leaderboard</h1>
+
+        <!-- Navigasi utama -->
+        <nav class="space-x-6 flex items-center ml-auto">
+            <!-- Setiap link akan diberi garis bawah jika halaman aktif -->
+            <a href="{{ url_for('home') }}" class="text-blue-200 hover:text-white transition relative pb-1 
+                {% if request.endpoint == 'home' %}active-menu{% endif %}">
+                Dashboard
+            </a>
+            <a href="{{ url_for('statistik') }}" class="text-blue-200 hover:text-white transition relative pb-1 
+                {% if request.endpoint == 'statistik' %}active-menu{% endif %}">
+                Statistik
+            </a>
+            <a href="{{ url_for('leaderboard') }}" class="text-blue-200 hover:text-white transition relative pb-1 
+                {% if request.endpoint == 'leaderboard' %}active-menu{% endif %}">
+                Leaderboard
+            </a>
+            <a href="{{ url_for('profile') }}" class="text-blue-200 hover:text-white transition relative pb-1 
+                {% if request.endpoint == 'profile' %}active-menu{% endif %}">
+                Profil
+            </a>
+            <a href="{{ url_for('logout') }}" class="transition font-medium text-[#ff1f1f] hover:text-[#ff9999] relative pb-1">
+                Logout
+            </a>
+        </nav>
     </div>
-</nav>
+</header>
 
-<div class="container mt-5">
-    <h1>Leaderboard Prediksi Kelulusan</h1>
+<!-- ======================= MAIN CONTENT ======================= -->
+<main class="container mx-auto px-4 py-8">
+    <!-- Judul utama di tengah halaman -->
+    <h2 class="text-3xl font-semibold text-gray-800 mb-6 text-center">Leaderboard Prediksi Kelulusan</h2>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Username</th>
-                <th>Nilai Ujian</th>
-                <th>Kehadiran</th>
-                <th>Keaktifan</th>
-                <th>Prediksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if leaderboard_data %}
-                {% for data in leaderboard_data %}
-                    <tr>
-                        <td>{{ data.rank }}</td> {# Diubah dari data.index menjadi data.rank #}
-                        <td>{{ data.username }}</td>
-                        <td>{{ data.nilai_ujian }}</td>
-                        <td>{{ data.kehadiran }}</td>
-                        <td>{{ data.keaktifan }}</td>
-                        <td>{{ data.result }}</td>
-                    </tr>
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="6" class="text-center">Tidak ada data untuk ditampilkan</td>
+    <!-- Tabel leaderboard untuk menampilkan data hasil prediksi pengguna -->
+    <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-6">
+        <table class="table-auto w-full">
+            <thead>
+                <tr class="bg-gray-200">
+                    <!-- Header kolom -->
+                    <th class="px-4 py-2">Rank</th>
+                    <th class="px-4 py-2">Username</th>
+                    <th class="px-4 py-2">Nilai Ujian</th>
+                    <th class="px-4 py-2">Kehadiran</th>
+                    <th class="px-4 py-2">Keaktifan</th>
+                    <th class="px-4 py-2">Prediksi</th>
                 </tr>
-            {% endif %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <!-- Jika data leaderboard tersedia, tampilkan baris-barisnya -->
+                {% if leaderboard_data %}
+                    {% for data in leaderboard_data %}
+                        <tr class="hover:bg-gray-100">
+                            <td class="border px-4 py-2 text-center">{{ data.rank }}</td>
+                            <td class="border px-4 py-2 text-center">{{ data.username }}</td>
+                            <td class="border px-4 py-2 text-center">{{ data.nilai_ujian }}</td>
+                            <td class="border px-4 py-2 text-center">{{ data.kehadiran }}</td>
+                            <td class="border px-4 py-2 text-center">{{ data.keaktifan }}</td>
+                            <td class="border px-4 py-2 text-center">{{ data.result }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <!-- Jika tidak ada data, tampilkan pesan di satu baris -->
+                    <tr>
+                        <td colspan="6" class="text-center border px-4 py-2">Tidak ada data untuk ditampilkan</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</main>
 
-</div>
+<!-- ======================= FOOTER ======================= -->
+<footer class="bg-gray-200 py-4 mt-8">
+    <div class="container mx-auto px-4 text-center text-gray-600">
+        <!-- Hak cipta footer -->
+        &copy; 2025 Prediksi Kelulusan. Semua hak cipta dilindungi
+    </div>
+</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
