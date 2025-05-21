@@ -20,9 +20,14 @@ VALID_DOSEN_CODE = 'DOSENTELYU'  # Kode dosen tetap (fix)
 def home():
     # Arahkan pengguna ke dashboard yang sesuai berdasarkan role mereka
     if current_user.isStudent:  # Cek apakah mahasiswa
-        return render_template('dashboardmhs.html')  # Dashboard mahasiswa
+        # Ambil data statistik prediksi untuk mahasiswa
+        all_predictions = PredictionHistory.query.filter_by(user_id=current_user.id).all()
+        pass_count = sum([1 for p in all_predictions if p.result == 'Lulus'])
+        fail_count = len(all_predictions) - pass_count
+
+        return render_template('dashboard.html', pass_count=pass_count, fail_count=fail_count)  # Data statistik untuk mahasiswa
     else:
-        return render_template('dashboard.html')  # Dashboard dosen
+        return render_template('dashboard.html')  # Dashboard untuk dosen
 
 # Halaman login
 @app.route('/login', methods=['GET', 'POST'])
@@ -149,11 +154,15 @@ def predict():
         flash('Terjadi kesalahan saat melakukan prediksi. Pastikan semua input valid.', 'danger')
         return redirect(url_for('home'))
 
-# Halaman Statistik
-# Halaman Statistik
+# Halaman Statistik untuk Dosen
 @app.route('/statistik')
 @login_required
 def statistik():
+    if current_user.isStudent:
+        # Mahasiswa tidak bisa mengakses halaman statistik dosen
+        flash("Anda tidak memiliki akses ke halaman ini.", "danger")
+        return redirect(url_for('home'))  # Redirect ke halaman home atau dashboard
+
     # Ambil semua data prediksi, baik untuk dosen maupun mahasiswa
     all_predictions = PredictionHistory.query.all()
 
@@ -162,25 +171,16 @@ def statistik():
     fail_count = len(all_predictions) - pass_count
 
     # Hitung rata-rata nilai ujian dan persentase kelulusan dari semua data
-    # Pastikan all_predictions tidak kosong untuk menghindari ZeroDivisionError
     avg_score = sum([p.nilai_ujian for p in all_predictions]) / len(all_predictions) if all_predictions else 0
     pass_percentage = (pass_count / len(all_predictions)) * 100 if all_predictions else 0
 
-    if current_user.isStudent:
-        # Mahasiswa: Menggunakan data keseluruhan yang sudah dihitung
-        return render_template('statistikmhs.html',
-                               pass_count=pass_count,
-                               fail_count=fail_count,
-                               avg_score=avg_score,
-                               pass_percentage=pass_percentage)
-    else:
-        # Dosen: Menggunakan data keseluruhan yang sama
-        return render_template('statistik.html',
-                               avg_score=avg_score,
-                               pass_percentage=pass_percentage,
-                               pass_count=pass_count,
-                               fail_count=fail_count)
-        
+    # Tampilkan halaman statistik untuk dosen
+    return render_template('statistik.html', 
+                           avg_score=avg_score, 
+                           pass_percentage=pass_percentage,
+                           pass_count=pass_count,
+                           fail_count=fail_count)
+
 # Halaman Leaderboard
 @app.route('/leaderboard')
 @login_required
@@ -196,11 +196,12 @@ def leaderboard():
 
         leaderboard_data_ranked = []
         for i, prediction in enumerate(top_lulus_predictions): 
-            # Pastikan objek user ada sebelum mengakses username
-            username = prediction.user.username if prediction.user else "N/A"
+            # Ambil nama dari PredictionHistory, bukan username dari User
+            # Nama diambil dari PredictionHistory, yang diinput saat prediksi
+            nama = prediction.nama if prediction.nama else "N/A"
             leaderboard_data_ranked.append({
                 'rank': i + 1,  # Ranking berdasarkan urutan dari query
-                'username': username,
+                'nama': nama,  # Menampilkan nama yang diinputkan
                 'nilai_ujian': prediction.nilai_ujian,
                 'kehadiran': prediction.kehadiran,
                 'keaktifan': prediction.keaktifan,
@@ -210,14 +211,13 @@ def leaderboard():
         return render_template('leaderboard.html', leaderboard_data=leaderboard_data_ranked)
 
     except AttributeError as e:
-        app.logger.error(f"Leaderboard AttributeError: {e}") # Untuk debugging di log server
+        app.logger.error(f"Leaderboard AttributeError: {e}")  # Untuk debugging di log server
         flash('Terjadi kesalahan saat mengambil data pengguna untuk leaderboard.', 'danger')
         return render_template('leaderboard.html', leaderboard_data=[], error_message="Kesalahan data pengguna.")
     except Exception as e:
-        app.logger.error(f"Leaderboard general error: {e}") # Untuk debugging di log server
+        app.logger.error(f"Leaderboard general error: {e}")  # Untuk debugging di log server
         flash('Terjadi kesalahan saat memuat leaderboard.', 'danger')
         return render_template('leaderboard.html', leaderboard_data=[], error_message="Kesalahan server.")
-
 
 # Halaman Profil
 @app.route('/profile')
