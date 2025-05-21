@@ -150,25 +150,37 @@ def predict():
         return redirect(url_for('home'))
 
 # Halaman Statistik
+# Halaman Statistik
 @app.route('/statistik')
 @login_required
 def statistik():
-    predictions = PredictionHistory.query.filter_by(user_id=current_user.id).all()
+    # Ambil semua data prediksi, baik untuk dosen maupun mahasiswa
+    all_predictions = PredictionHistory.query.all()
 
-    # Menghitung jumlah lulus dan tidak lulus
-    pass_count = sum([1 for p in predictions if p.result == 'Lulus'])
-    fail_count = len(predictions) - pass_count  # Total - pass_count
+    # Hitung jumlah lulus dan tidak lulus dari semua data
+    pass_count = sum([1 for p in all_predictions if p.result == 'Lulus'])
+    fail_count = len(all_predictions) - pass_count
 
-    # Menghitung rata-rata nilai ujian dan persentase kelulusan
-    avg_score = sum([p.nilai_ujian for p in predictions]) / len(predictions) if predictions else 0
-    pass_percentage = (pass_count / len(predictions)) * 100 if predictions else 0
+    # Hitung rata-rata nilai ujian dan persentase kelulusan dari semua data
+    # Pastikan all_predictions tidak kosong untuk menghindari ZeroDivisionError
+    avg_score = sum([p.nilai_ujian for p in all_predictions]) / len(all_predictions) if all_predictions else 0
+    pass_percentage = (pass_count / len(all_predictions)) * 100 if all_predictions else 0
 
-    return render_template('statistik.html', 
-                        avg_score=avg_score, 
-                        pass_percentage=pass_percentage,
-                        pass_count=pass_count, 
-                        fail_count=fail_count)
-
+    if current_user.isStudent:
+        # Mahasiswa: Menggunakan data keseluruhan yang sudah dihitung
+        return render_template('statistikmhs.html',
+                               pass_count=pass_count,
+                               fail_count=fail_count,
+                               avg_score=avg_score,
+                               pass_percentage=pass_percentage)
+    else:
+        # Dosen: Menggunakan data keseluruhan yang sama
+        return render_template('statistik.html',
+                               avg_score=avg_score,
+                               pass_percentage=pass_percentage,
+                               pass_count=pass_count,
+                               fail_count=fail_count)
+        
 # Halaman Leaderboard
 @app.route('/leaderboard')
 @login_required
