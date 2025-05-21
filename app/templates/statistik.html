@@ -5,21 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistik - Prediksi Kelulusan</title>
 
-    <!-- Tailwind CSS -->
+    <!-- Import Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font Inter -->
+    <!-- Import font Inter dari Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Chart.js -->
+    <!-- Import Chart.js untuk menampilkan grafik -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Custom Styling -->
+    <!-- Custom styling menggunakan CSS -->
     <style>
+        /* Gaya umum untuk seluruh body */
         body {
             font-family: 'Inter', sans-serif;
+            background: linear-gradient(to right, #f0f4f8, #e2e8f0);
         }
 
+        /* Latar belakang header menggunakan gradasi biru */
+        .header-bg {
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+        }
+
+        /* Gaya untuk menandai menu yang sedang aktif */
         .active-menu {
             position: relative;
         }
@@ -35,15 +43,48 @@
             transform: scaleX(1);
             transition: transform 0.3s ease;
         }
+
+        /* Tampilan kartu (card) grafik */
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        /* Gaya tombol */
+        .button { 
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.1em;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover { 
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:active {
+            transform: translateY(1px);
+        }
     </style>
 </head>
-<body class="bg-gray-100">
+<body>
 
-<!-- Header Navbar -->
-<header class="bg-[#1e40af] shadow-md py-4">
+<!-- Header navigasi utama -->
+<header class="header-bg shadow-md py-4">
     <div class="container mx-auto px-4 flex justify-between items-center">
+        <!-- Judul situs -->
         <h1 class="text-2xl font-bold text-white">Statistik</h1>
+        
+        <!-- Menu navigasi -->
         <nav class="space-x-6 flex items-center ml-auto">
+            <!-- Setiap tautan akan diberi class 'active-menu' bila endpoint cocok -->
             <a href="{{ url_for('home') }}" class="text-blue-200 hover:text-white transition relative pb-1 
                 {% if request.endpoint == 'home' %}active-menu{% endif %}">
                 Dashboard
@@ -60,6 +101,7 @@
                 {% if request.endpoint == 'profile' %}active-menu{% endif %}">
                 Profil
             </a>
+            <!-- Tombol logout -->
             <a href="{{ url_for('logout') }}" class="transition font-medium text-[#ff1f1f] hover:text-[#ff9999] relative pb-1">
                 Logout
             </a>
@@ -67,11 +109,12 @@
     </div>
 </header>
 
-<!-- Konten Utama -->
+<!-- Konten utama halaman -->
 <main class="container mx-auto px-4 py-8">
+    <!-- Judul halaman -->
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Statistik Kelulusan</h2>
 
-    <!-- Box Statistik -->
+    <!-- Menampilkan jumlah lulus dan tidak lulus -->
     <div class="flex justify-center gap-4 mb-8">
         <div class="bg-green-600 text-white font-semibold rounded px-4 py-2 shadow-md">
             Lulus: {{ pass_count }}
@@ -81,42 +124,44 @@
         </div>
     </div>
 
-    <!-- Grafik -->
-    <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
+    <!-- Grafik batang menggunakan Chart.js -->
+    <div class="card mb-8 mx-auto max-w-3xl">
         <canvas id="statistikChart" width="400" height="200"></canvas>
     </div>
 
+    <!-- Script untuk membuat grafik -->
     <script>
+        // Ambil elemen canvas dan inisialisasi Chart.js
         var ctx = document.getElementById('statistikChart').getContext('2d');
         var statistikChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'bar', // Jenis grafik: batang
             data: {
-                labels: ['Lulus', 'Tidak Lulus'],
+                labels: ['Lulus', 'Tidak Lulus'], // Label sumbu X
                 datasets: [{
-                    label: 'Prediksi Kelulusan',
-                    data: [{{ pass_count }}, {{ fail_count }}],
-                    backgroundColor: ['#388E3C', '#D32F2F'],
-                    borderColor: ['#2e7d32', '#c62828'],
-                    borderWidth: 1
+                    label: 'Prediksi Kelulusan', // Label untuk legenda (disembunyikan)
+                    data: [{{ pass_count }}, {{ fail_count }}], // Data aktual dari backend
+                    backgroundColor: ['#388E3C', '#D32F2F'], // Warna batang
+                    borderColor: ['#2e7d32', '#c62828'], // Warna border batang
+                    borderWidth: 1 // Ketebalan border
                 }]
             },
             options: {
-                responsive: true,
+                responsive: true, // Grafik menyesuaikan ukuran layar
                 plugins: {
-                    legend: { display: false }
+                    legend: { display: false } // Sembunyikan legenda
                 },
                 scales: {
                     y: {
-                        beginAtZero: true,
+                        beginAtZero: true, // Mulai sumbu Y dari 0
                         title: {
                             display: true,
-                            text: 'Jumlah Data'
+                            text: 'Jumlah Data' // Judul sumbu Y
                         }
                     },
                     x: {
                         title: {
                             display: true,
-                            text: 'Prediksi Kelulusan'
+                            text: 'Prediksi Kelulusan' // Judul sumbu X
                         }
                     }
                 }
@@ -125,7 +170,7 @@
     </script>
 </main>
 
-<!-- Footer -->
+<!-- Footer halaman -->
 <footer class="bg-gray-200 py-4 mt-8">
     <div class="container mx-auto px-4 text-center text-gray-600">
         &copy; 2025 Prediksi Kelulusan. Semua hak cipta dilindungi
