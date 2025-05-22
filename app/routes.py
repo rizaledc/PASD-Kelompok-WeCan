@@ -18,11 +18,13 @@ VALID_DOSEN_CODE = 'DOSENTELYU'  # Kode dosen tetap (fix)
 @app.route('/')
 @login_required
 def home():
-    # Arahkan pengguna ke dashboard yang sesuai berdasarkan role mereka
-    if current_user.isStudent:  # Cek apakah mahasiswa
-        return render_template('dashboardmhs.html')  # Dashboard mahasiswa
+    if current_user.isStudent:
+        # Kirim username ke template dashboard mahasiswa
+        return render_template('dashboardmhs.html', username=current_user.username)
     else:
-        return render_template('dashboard.html')  # Dashboard dosen
+        # Untuk dashboard dosen, username sudah bisa diakses via current_user di template
+        # 'result' akan dikirim oleh route 'predict' jika ada prediksi baru
+        return render_template('dashboard.html')
 
 # Halaman login
 @app.route('/login', methods=['GET', 'POST'])
@@ -153,7 +155,7 @@ def predict():
 @app.route('/statistik')
 @login_required
 def statistik():
-    # Ambil semua data prediksi, baik untuk dosen maupun mahasiswa
+    # Ambil semua data prediksi
     all_predictions = PredictionHistory.query.all()
 
     # Hitung jumlah lulus dan tidak lulus dari semua data
@@ -161,60 +163,61 @@ def statistik():
     fail_count = len(all_predictions) - pass_count
 
     # Hitung rata-rata nilai ujian dan persentase kelulusan dari semua data
-    # Pastikan all_predictions tidak kosong untuk menghindari ZeroDivisionError
-    avg_score = sum([p.nilai_ujian for p in all_predictions]) / len(all_predictions) if all_predictions else 0
-    pass_percentage = (pass_count / len(all_predictions)) * 100 if all_predictions else 0
+    avg_score = 0
+    pass_percentage = 0
+    if all_predictions: # Pastikan all_predictions tidak kosong
+        avg_score = sum([p.nilai_ujian for p in all_predictions]) / len(all_predictions)
+        pass_percentage = (pass_count / len(all_predictions)) * 100
 
-    if current_user.isStudent:
-        # Mahasiswa: Menggunakan data keseluruhan yang sudah dihitung
-        return render_template('statistikmhs.html',
-                               pass_count=pass_count,
-                               fail_count=fail_count,
-                               avg_score=avg_score,
-                               pass_percentage=pass_percentage)
-    else:
-        # Dosen: Menggunakan data keseluruhan yang sama
-        return render_template('statistik.html',
-                               avg_score=avg_score,
-                               pass_percentage=pass_percentage,
-                               pass_count=pass_count,
-                               fail_count=fail_count)
-        
+    # Render template statistik.html untuk semua pengguna
+    # Kirim juga current_user agar template bisa menyesuaikan navigasi jika perlu (opsional)
+    return render_template('statistik.html',
+                           pass_count=pass_count,
+                           fail_count=fail_count,
+                           avg_score=avg_score,
+                           pass_percentage=pass_percentage,
+                           current_user_role='mahasiswa' if current_user.isStudent else 'dosen') # Opsional: untuk penyesuaian kecil di template jika ada
+
+
 # Halaman Leaderboard
 @app.route('/leaderboard')
 @login_required
 def leaderboard():
     try:
-        # Mengambil top 10 prediksi dengan status "Lulus" dan nilai ujian tertinggi
-        top_lulus_predictions = PredictionHistory.query \
-            .options(db.joinedload(PredictionHistory.user)) \
-            .filter(PredictionHistory.result == "Lulus") \
-            .order_by(PredictionHistory.nilai_ujian.desc()) \
-            .limit(10) \
-            .all()
+        # Mengambil semua prediksi dari seluruh pengguna
+        # Menggunakan joinedload untuk efisiensi query jika User model sering diakses
+        predictions = PredictionHistory.query.options(db.joinedload(PredictionHistory.user)).all()
 
-        leaderboard_data_ranked = []
-        for i, prediction in enumerate(top_lulus_predictions): 
-            # Ambil nama dari PredictionHistory, bukan username dari User
-            # Nama diambil dari PredictionHistory, yang diinput saat prediksi
+        # Menyiapkan data mentah untuk leaderboard
+        leaderboard_raw_data = []
+        for prediction in predictions:
+            # Pastikan objek user ada sebelum mengakses username
             nama = prediction.nama if prediction.nama else "N/A"
-            leaderboard_data_ranked.append({
-                'rank': i + 1,  # Ranking berdasarkan urutan dari query
+            leaderboard_raw_data.append({
                 'nama': nama,  # Menampilkan nama yang diinputkan
                 'nilai_ujian': prediction.nilai_ujian,
                 'kehadiran': prediction.kehadiran,
                 'keaktifan': prediction.keaktifan,
-                'result': prediction.result  # Ini akan selalu "Lulus" berdasarkan filter
+                'result': prediction.result
             })
+
+        # Urutkan berdasarkan nilai ujian (dari tertinggi ke terendah)
+        leaderboard_raw_data.sort(key=lambda x: x['nilai_ujian'], reverse=True)
+
+        # Tambahkan ranking setelah diurutkan
+        leaderboard_data_ranked = []
+        for i, data_item in enumerate(leaderboard_raw_data):
+            data_item['rank'] = i + 1  # Menambahkan key 'rank'
+            leaderboard_data_ranked.append(data_item)
 
         return render_template('leaderboard.html', leaderboard_data=leaderboard_data_ranked)
 
     except AttributeError as e:
-        app.logger.error(f"Leaderboard AttributeError: {e}")  # Untuk debugging di log server
+        app.logger.error(f"Leaderboard AttributeError: {e}") # Untuk debugging di log server
         flash('Terjadi kesalahan saat mengambil data pengguna untuk leaderboard.', 'danger')
         return render_template('leaderboard.html', leaderboard_data=[], error_message="Kesalahan data pengguna.")
     except Exception as e:
-        app.logger.error(f"Leaderboard general error: {e}")  # Untuk debugging di log server
+        app.logger.error(f"Leaderboard general error: {e}") # Untuk debugging di log server
         flash('Terjadi kesalahan saat memuat leaderboard.', 'danger')
         return render_template('leaderboard.html', leaderboard_data=[], error_message="Kesalahan server.")
 
