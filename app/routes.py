@@ -207,7 +207,7 @@ def leaderboard():
         # Tambahkan ranking setelah diurutkan
         leaderboard_data_ranked = []
         for i, data_item in enumerate(leaderboard_raw_data):
-            data_item['rank'] = i + 1  # Menambahkan key 'rank'
+            data_item['rank'] = i + 1  # Menambahkan key 'rank'. i untuk index, +1 untuk ranking mulai dari 1
             leaderboard_data_ranked.append(data_item)
 
         return render_template('leaderboard.html', leaderboard_data=leaderboard_data_ranked)
