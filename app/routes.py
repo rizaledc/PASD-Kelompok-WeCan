@@ -195,7 +195,7 @@ def leaderboard():
             nama = prediction.nama if prediction.nama else "N/A"
             
             #menghitung avg
-            avg_score = (prediction.nilai_ujian + prediction.kehadiran + prediction.keaktifan) / 3
+            avg_score = round((prediction.nilai_ujian + prediction.kehadiran + prediction.keaktifan) / 3,2)
             
             leaderboard_raw_data.append({
                 'nama': nama,  # Menampilkan nama yang diinputkan
