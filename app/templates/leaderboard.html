@@ -79,11 +79,12 @@
             <thead>
                 <tr class="bg-gray-200">
                     <!-- Header kolom -->
-                    <th class="px-4 py-2">Nomor</th>
-                    <th class="px-4 py-2">Nama</th> <!-- Changed Username to Nama -->
+                    <th class="px-4 py-2">Ranking</th>
+                    <th class="px-4 py-2">Nama</th> 
                     <th class="px-4 py-2">Nilai Ujian</th>
                     <th class="px-4 py-2">Kehadiran</th>
                     <th class="px-4 py-2">Keaktifan</th>
+                    <th class="px-4 py-2">Rata-rata</th>
                     <th class="px-4 py-2">Prediksi</th>
                 </tr>
             </thead>
@@ -97,6 +98,7 @@
                             <td class="border px-4 py-2 text-center">{{ data.nilai_ujian }}</td>
                             <td class="border px-4 py-2 text-center">{{ data.kehadiran }}</td>
                             <td class="border px-4 py-2 text-center">{{ data.keaktifan }}</td>
+                            <td class="border px-4 py-2 text-center">{{ data.avg_score }}</td>
                             <td class="border px-4 py-2 text-center">{{ data.result }}</td>
                         </tr>
                     {% endfor %}

@@ -193,16 +193,21 @@ def leaderboard():
         for prediction in predictions:
             # Pastikan objek user ada sebelum mengakses username
             nama = prediction.nama if prediction.nama else "N/A"
+            
+            #menghitung avg
+            avg_score = (prediction.nilai_ujian + prediction.kehadiran + prediction.keaktifan) / 3
+            
             leaderboard_raw_data.append({
                 'nama': nama,  # Menampilkan nama yang diinputkan
                 'nilai_ujian': prediction.nilai_ujian,
                 'kehadiran': prediction.kehadiran,
                 'keaktifan': prediction.keaktifan,
+                'avg_score': avg_score,  
                 'result': prediction.result
             })
 
         # Urutkan berdasarkan nilai ujian (dari tertinggi ke terendah)
-        leaderboard_raw_data.sort(key=lambda x: x['nilai_ujian'], reverse=True)
+        leaderboard_raw_data.sort(key=lambda x: x['avg_score'], reverse=True)
 
         # Tambahkan ranking setelah diurutkan
         leaderboard_data_ranked = []
