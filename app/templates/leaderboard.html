@@ -1,50 +1,24 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <!-- Meta informasi dasar -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard - Prediksi Kelulusan</title>
 
-    <!-- Load Tailwind CSS untuk styling responsif dan modern -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load font Inter dari Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(to right, #f0f4f8, #e2e8f0);
-        }
+    <!-- Link ke CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-        .active-menu {
-            position: relative;
-        }
-
-        .active-menu::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: white;
-            transform: scaleX(1);
-            transition: transform 0.3s ease;
-        }
-    </style>
 </head>
 <body>
 
-<!-- ======================= HEADER / NAVBAR ======================= -->
-<header class="bg-[#1e40af] shadow-md py-4">
+<header class="header-bg shadow-md py-4">
     <div class="container mx-auto px-4 flex justify-between items-center">
-        <!-- Judul halaman -->
         <h1 class="text-3xl font-bold text-white">Leaderboard</h1>
 
-        <!-- Navigasi utama -->
         <nav class="space-x-6 flex items-center ml-auto">
-            <!-- Setiap link akan diberi garis bawah jika halaman aktif -->
             <a href="{{ url_for('home') }}" class="text-blue-200 hover:text-white transition relative pb-1 
                 {% if request.endpoint == 'home' %}active-menu{% endif %}">
                 Dashboard
@@ -68,17 +42,13 @@
     </div>
 </header>
 
-<!-- ======================= MAIN CONTENT ======================= -->
 <main class="container mx-auto px-4 py-8">
-    <!-- Judul utama di tengah halaman -->
     <h2 class="text-3xl font-semibold text-gray-800 mb-6 text-center">Leaderboard Prediksi Kelulusan</h2>
 
-    <!-- Tabel leaderboard untuk menampilkan data hasil prediksi pengguna -->
     <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-6">
         <table class="table-auto w-full">
             <thead>
                 <tr class="bg-gray-200">
-                    <!-- Header kolom -->
                     <th class="px-4 py-2">Ranking</th>
                     <th class="px-4 py-2">Nama</th> 
                     <th class="px-4 py-2">Nilai Ujian</th>
@@ -89,12 +59,11 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Jika data leaderboard tersedia, tampilkan baris-barisnya -->
                 {% if leaderboard_data %}
                     {% for data in leaderboard_data %}
                         <tr class="hover:bg-gray-100">
                             <td class="border px-4 py-2 text-center">{{ data.rank }}</td>
-                            <td class="border px-4 py-2 text-center">{{ data.nama }}</td> <!-- Display Nama instead of Username -->
+                            <td class="border px-4 py-2 text-center">{{ data.nama }}</td> 
                             <td class="border px-4 py-2 text-center">{{ data.nilai_ujian }}</td>
                             <td class="border px-4 py-2 text-center">{{ data.kehadiran }}</td>
                             <td class="border px-4 py-2 text-center">{{ data.keaktifan }}</td>
@@ -103,7 +72,6 @@
                         </tr>
                     {% endfor %}
                 {% else %}
-                    <!-- Jika tidak ada data, tampilkan pesan di satu baris -->
                     <tr>
                         <td colspan="6" class="text-center border px-4 py-2">Tidak ada data untuk ditampilkan</td>
                     </tr>
@@ -113,10 +81,8 @@
     </div>
 </main>
 
-<!-- ======================= FOOTER ======================= -->
 <footer class="bg-gray-200 py-4 mt-8">
     <div class="container mx-auto px-4 text-center text-gray-600">
-        <!-- Hak cipta footer -->
         &copy; 2025 Prediksi Kelulusan. Semua hak cipta dilindungi
     </div>
 </footer>
