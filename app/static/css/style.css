@@ -5,89 +5,120 @@ body {
     margin: 0;
     padding: 0;
     color: #333; /* Default text color */
+    display: flex; /* For footer at the bottom */
+    flex-direction: column; /* For footer at the bottom */
+    min-height: 100vh; /* Ensures footer is at the bottom */
 }
 
-/* Tambahkan ini jika .bg-main belum ada dan Anda ingin warna spesifik */
+/* Main Background */
 .bg-main {
-    background-color: #f4f7f6; /* Atau warna lain yang Anda inginkan */
+    background-color: #f4f7f6; /* Light background color */
 }
 
-.auth-link-text {
-    font-size: 0.9rem;
-    color: #555; /* Warna abu-abu yang sedikit lebih gelap */
+/* Active Menu Underline */
+.active-menu::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    transform: scaleX(1);
+    transition: transform 0.3s ease;
 }
 
-/* Gaya link di dalam .auth-link-text akan mewarisi dari 'a' global,
-   tapi Anda bisa override jika perlu */
-.auth-link-text a {
-    font-weight: 500; /* Membuat link sedikit lebih tebal */
-}
-
-.container-custom {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px; /* Added padding for better spacing on small screens */
+/* Header Background */
+.header-bg {
+    background: linear-gradient(90deg, #1e40af, #3b82f6);
 }
 
 /* Card Styles */
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Custom Styles */
 .card-custom {
-    background-color: #ffffff; /* White card background */
-    border-radius: 12px; /* Softer rounded corners */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
-    padding: 35px 40px; /* Increased padding inside the card */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px 25px;
     width: 100%;
-    max-width: 500px; /* Slightly wider card for better content fit */
+    max-width: 500px;
 }
 
 /* Heading Styles */
 .card-custom h1 {
-    font-size: 1.8rem; /* Adjusted font size for the title */
-    color: #2c3e50; /* Darker, more professional blue/grey */
-    font-weight: 600; /* Semi-bold */
-    margin-bottom: 30px; /* More space below heading */
+    font-size: 1.8rem;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 20px;
     text-align: center;
 }
 
-/* Form Label Styles */
+/* Label Styles */
 .form-label {
-    font-weight: 500; /* Medium weight for labels */
+    font-weight: 500;
     color: #555;
-    margin-bottom: 8px; /* Space between label and input */
+    margin-bottom: 8px;
 }
 
-/* Input Fields - Leveraging Bootstrap's .form-control */
-.form-control {
+/* Input Field Styles */
+.input-field {
     font-size: 1rem;
-    padding: 12px 15px; /* Comfortable padding */
-    /* width: 100%; (handled by Bootstrap) */
-    margin-bottom: 20px; /* Consistent space between input fields */
-    border-radius: 8px; /* Softer corners for inputs */
-    border: 1px solid #ced4da; /* Standard Bootstrap border color */
-    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition */
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-.form-control:focus {
-    border-color: #007bff; /* Primary blue focus color */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap-like focus shadow */
+.input-field:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     outline: none;
 }
 
-/* General Button Styles (complementing Bootstrap's .btn) */
-.btn {
+/* Green Button for Prediksi */
+.btn-green-custom {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
     font-size: 1rem;
-    padding-top: 12px;    /* Ensured by .py-2 or custom padding */
-    padding-bottom: 12px; /* Ensured by .py-2 or custom padding */
+    padding-top: 12px;
+    padding-bottom: 12px;
     border-radius: 8px;
     font-weight: 500;
     transition: background-color 0.2s ease-in-out, transform 0.1s ease, box-shadow 0.2s ease-in-out;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for buttons */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-green-custom:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.btn-green-custom:active {
+    background-color: #388e3c; /* Even darker green on active */
+}
+
+/* General Button Styles */
+.btn {
+    font-size: 1rem;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .btn:hover {
-    transform: translateY(-2px); /* Slight lift effect */
+    transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
@@ -96,56 +127,56 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Custom Primary Button */
+/* Primary Button */
 .btn-primary-custom {
-    background-color: #007bff; /* Primary blue */
+    background-color: #007bff;
     color: white;
     border: none;
 }
 
 .btn-primary-custom:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
     color: white;
 }
 
 .btn-primary-custom:active {
-    background-color: #004085; /* Even darker on active */
+    background-color: #004085;
     color: white;
 }
 
-/* Custom Danger Button */
+/* Danger Button */
 .btn-danger-custom {
-    background-color: #dc3545; /* Standard danger red */
+    background-color: #dc3545;
     color: white;
     border: none;
 }
 
 .btn-danger-custom:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #c82333;
     color: white;
 }
 
 .btn-danger-custom:active {
-    background-color: #bd2130; /* Even darker on active */
+    background-color: #bd2130;
     color: white;
 }
 
-/* Alert Message Styles */
+/* Alert Styles */
 .alert-custom {
-    background-color: #e7f3fe; /* Light blue background for info */
-    border-left: 5px solid #007bff; /* Blue left border for emphasis */
-    color: #004085; /* Dark blue text for readability */
+    background-color: #e7f3fe;
+    border-left: 5px solid #007bff;
+    color: #004085;
     padding: 15px 20px;
-    margin-top: 30px; /* More space above the alert */
+    margin-top: 30px;
     border-radius: 8px;
-    text-align: center; /* Already in HTML but good to have here too */
+    text-align: center;
 }
 
 .alert-custom strong {
-    color: #004085; /* Ensure strong text also has good contrast */
+    color: #004085;
 }
 
-/* Link Styling (though not prominent in this specific dashboard) */
+/* Link Styles */
 a {
     color: #007bff;
     text-decoration: none;
@@ -156,24 +187,31 @@ a:hover {
     color: #0056b3;
 }
 
+/* Footer Styles */
+footer {
+    background-color: #e2e8f0;
+    padding: 20px;
+    text-align: center;
+    color: #4b5563;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 576px) {
     .card-custom {
-        padding: 25px 20px; /* Reduce padding on smaller screens */
-        margin-left: 10px;   /* Add small horizontal margin */
-        margin-right: 10px;  /* Add small horizontal margin */
+        padding: 20px 15px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
     .card-custom h1 {
-        font-size: 1.6rem; /* Slightly smaller heading for mobile */
+        font-size: 1.6rem;
     }
 
-    .btn { /* Adjust button padding and font for smaller screens */
+    .btn {
         font-size: 0.9rem;
-        /* .py-2 might be sufficient, or adjust padding here if needed */
     }
 
-    .form-control { /* Adjust input padding for smaller screens */
+    .form-control {
         padding: 10px 12px;
     }
 }
