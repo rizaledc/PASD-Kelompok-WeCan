@@ -14,65 +14,8 @@
     <!-- Import Chart.js untuk menampilkan grafik -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Custom styling menggunakan CSS -->
-    <style>
-        /* Gaya umum untuk seluruh body */
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(to right, #f0f4f8, #e2e8f0);
-        }
-
-        /* Latar belakang header menggunakan gradasi biru */
-        .header-bg {
-            background: linear-gradient(90deg, #1e40af, #3b82f6);
-        }
-
-        /* Gaya untuk menandai menu yang sedang aktif */
-        .active-menu {
-            position: relative;
-        }
-
-        .active-menu::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: white;
-            transform: scaleX(1);
-            transition: transform 0.3s ease;
-        }
-
-        /* Tampilan kartu (card) grafik */
-        .card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-        }
-
-        /* Gaya tombol */
-        .button { 
-            background-color: #4CAF50;
-            color: white;
-            font-size: 1.1em;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .button:hover { 
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .button:active {
-            transform: translateY(1px);
-        }
-    </style>
+    <!-- Link ke CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
@@ -86,21 +29,13 @@
         <nav class="space-x-6 flex items-center ml-auto">
             <!-- Setiap tautan akan diberi class 'active-menu' bila endpoint cocok -->
             <a href="{{ url_for('home') }}" class="text-blue-200 hover:text-white transition relative pb-1 
-                {% if request.endpoint == 'home' %}active-menu{% endif %}">
-                Dashboard
-            </a>
+                {% if request.endpoint == 'home' %}active-menu{% endif %}">Dashboard</a>
             <a href="{{ url_for('statistik') }}" class="text-blue-200 hover:text-white transition relative pb-1 
-                {% if request.endpoint == 'statistik' %}active-menu{% endif %}">
-                Statistik
-            </a>
+                {% if request.endpoint == 'statistik' %}active-menu{% endif %}">Statistik</a>
             <a href="{{ url_for('leaderboard') }}" class="text-blue-200 hover:text-white transition relative pb-1 
-                {% if request.endpoint == 'leaderboard' %}active-menu{% endif %}">
-                Leaderboard
-            </a>
+                {% if request.endpoint == 'leaderboard' %}active-menu{% endif %}">Leaderboard</a>
             <a href="{{ url_for('profile') }}" class="text-blue-200 hover:text-white transition relative pb-1 
-                {% if request.endpoint == 'profile' %}active-menu{% endif %}">
-                Profil
-            </a>
+                {% if request.endpoint == 'profile' %}active-menu{% endif %}">Profil</a>
             <!-- Tombol logout -->
             <a href="{{ url_for('logout') }}" class="transition font-medium text-[#ff1f1f] hover:text-[#ff9999] relative pb-1">
                 Logout

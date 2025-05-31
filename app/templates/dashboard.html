@@ -11,84 +11,9 @@
     <!-- Font Inter dari Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        /* Atur font dan latar belakang halaman */
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: linear-gradient(to right, #f0f4f8, #e2e8f0);
-        }
+    <!-- Link ke CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-        /* Gaya tombol umum */
-        .button { 
-            background-color: #4CAF50;
-            color: white;
-            font-size: 1.1em;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .button:hover { 
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .button:active {
-            transform: translateY(1px);
-        }
-
-        /* Box hasil prediksi (kanan atas) */
-        .prediction-box {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 250px;
-            font-size: 1.2em;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Gaya garis bawah aktif di menu navbar */
-        .active-menu::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: white;
-            transform: scaleX(1);
-            transition: transform 0.3s ease;
-        }
-
-        /* Warna background header */
-        .header-bg {
-            background: linear-gradient(90deg, #1e40af, #3b82f6);
-        }
-
-        /* Gaya umum kartu */
-        .card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Gaya input form */
-        .input-field {
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            padding: 10px;
-            transition: border-color 0.3s;
-        }
-
-        .input-field:focus {
-            border-color: #3b82f6;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-        }
-    </style>
 </head>
 <body>
 
@@ -143,39 +68,40 @@
             <div>
                 <label class="block text-gray-700">Nama</label>
                 <input type="text" name="nama" placeholder="Masukkan nama" required 
-                       class="input-field w-full"/>
+                    class="input-field w-full" 
+                    oninput="this.value = this.value.toUpperCase();"/>
             </div>
 
             <!-- Input NIM -->
             <div>
                 <label class="block text-gray-700">NIM</label>
                 <input type="text" name="nim" placeholder="Masukkan NIM" required 
-                       class="input-field w-full"/>
+                    class="input-field w-full"/>
             </div>
 
             <!-- Input Nilai Ujian -->
             <div>
                 <label class="block text-gray-700">Nilai Ujian</label>
                 <input type="number" name="nilai_ujian" step="0.01" min="0" max="100" placeholder="0 – 100" required 
-                       class="input-field w-full"/>
+                    class="input-field w-full"/>
             </div>
 
             <!-- Input Kehadiran -->
             <div>
                 <label class="block text-gray-700">Kehadiran (%)</label>
                 <input type="number" name="kehadiran" step="0.01" min="0" max="100" placeholder="0 – 100" required 
-                       class="input-field w-full"/>
+                    class="input-field w-full"/>
             </div>
 
             <!-- Input Keaktifan -->
             <div>
                 <label class="block text-gray-700">Keaktifan (%)</label>
                 <input type="number" name="keaktifan" step="0.01" min="0" max="100" placeholder="0 – 100" required 
-                       class="input-field w-full"/>
+                    class="input-field w-full"/>
             </div>
 
             <!-- Tombol Submit -->
-            <button type="submit" class="button rounded w-full py-2">
+            <button type="submit" class="btn-green-custom w-full">
                 Prediksi
             </button>
         </form>

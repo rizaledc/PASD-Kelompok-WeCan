@@ -27,7 +27,7 @@ class PredictionHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user_tb.id'), nullable=False)  # Relasi ke tabel User
     nama = db.Column(db.String(255), nullable=False)
-    nim = db.Column(db.Integer, nullable=False)
+    nim = db.Column(db.String(255), nullable=False)
     nilai_ujian = db.Column(db.Float, nullable=False)
     kehadiran = db.Column(db.Float, nullable=False)
     keaktifan = db.Column(db.Float, nullable=False)
