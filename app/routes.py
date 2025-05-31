@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for, flash
 from app import app, db
 from app.models import User, PredictionHistory
 from flask_login import login_user, login_required, current_user, logout_user
+from flask import session
 import re  # Untuk validasi password
 import joblib  # Menggunakan joblib untuk memuat model
 import numpy as np
@@ -99,12 +100,15 @@ def register():
     return render_template('register.html')
 
 # Halaman logout
-@app.route('/logout', methods=['GET', 'POST'])
+@app.route('/logout', methods=['GET', 'POST']) # Anda bisa mempertimbangkan hanya menggunakan POST untuk logout demi keamanan
 @login_required
 def logout():
+    session.pop('_flashes', None)
+
     logout_user()
     flash('Anda telah berhasil logout', 'info')
     return redirect(url_for('login'))  # Arahkan ke halaman login setelah logout
+
 
 # Halaman prediksi
 @app.route('/predict', methods=['POST'])
