@@ -1,4 +1,4 @@
-# Aplikasi Smart Performance Predictor
+# Tel-UGrad: Telkom University Graduate Predictor
 Proyek ini adalah bagian dari mata kuliah PASD yang dikembangkan oleh Kelompok WeCan. Repositori ini berisi kode sumber untuk sistem informasi yang mencakup modul-modul penting serta alur kerja aplikasinya.
 
 ## Daftar Isi
