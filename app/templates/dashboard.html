@@ -23,8 +23,15 @@
         <!-- Judul Halaman -->
         <h1 class="text-3xl font-bold text-white">Dashboard Dosen</h1>
 
-        <!-- Menu Navigasi -->
-        <nav class="space-x-6 flex items-center ml-auto">
+        <!-- Tombol Hamburger (Mobile Only) -->
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+
+        <!-- Menu Navigasi (Desktop Only) -->
+        <nav class="hidden md:flex space-x-6 items-center ml-auto">
             <!-- Link aktif ditandai dengan class active-menu -->
             <a href="{{ url_for('home') }}" class="text-blue-200 hover:text-white transition relative pb-1 
                 {% if request.endpoint == 'home' %}active-menu{% endif %}">
@@ -43,6 +50,27 @@
                 Profil
             </a>
             <a href="{{ url_for('logout') }}" class="transition font-medium text-[#ff1f1f] hover:text-[#ff9999] relative pb-1">
+                Logout
+            </a>
+        </nav>
+    </div>
+
+    <!-- Mobile Menu (Hidden by default, shown with JS) -->
+    <div id="mobile-menu" class="hidden md:hidden bg-blue-700 pb-2">
+        <nav class="flex flex-col items-center space-y-2 py-2">
+            <a href="{{ url_for('home') }}" class="text-blue-200 hover:text-white transition w-full text-center py-2 {% if request.endpoint == 'home' %}active-menu{% endif %}">
+                Dashboard
+            </a>
+            <a href="{{ url_for('statistik') }}" class="text-blue-200 hover:text-white transition w-full text-center py-2 {% if request.endpoint == 'statistik' %}active-menu{% endif %}">
+                Statistik
+            </a>
+            <a href="{{ url_for('leaderboard') }}" class_edited="true" class="text-blue-200 hover:text-white transition w-full text-center py-2 {% if request.endpoint == 'leaderboard' %}active-menu{% endif %}">
+                Leaderboard
+            </a>
+            <a href="{{ url_for('profile') }}" class="text-blue-200 hover:text-white transition w-full text-center py-2 {% if request.endpoint == 'profile' %}active-menu{% endif %}">
+                Profil
+            </a>
+            <a href="{{ url_for('logout') }}" class="transition font-medium text-[#ff1f1f] hover:text-[#ff9999] w-full text-center py-2">
                 Logout
             </a>
         </nav>
@@ -131,6 +159,15 @@
         &copy; Tel-UGrad. Semua hak cipta dilindungi
     </div>
 </footer>
+
+<script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
 
 </body>
 </html>
