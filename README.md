@@ -1,5 +1,5 @@
 # Tel-UGrad: Telkom University Graduate Predictor
-Proyek ini adalah bagian dari mata kuliah PASD yang dikembangkan oleh Kelompok WeCan. Repositori ini berisi kode sumber untuk sistem informasi yang mencakup modul-modul penting serta alur kerja aplikasinya.
+Proyek ini adalah bagian dari mata kuliah PASD yang dikembangkan oleh Kelompok WeCan. Repositori ini berisi kode sumber untuk sistem informasi yang mencakup modul-modul penting serta alur kerja aplikasinya. Webiste Tel-UGrad ini sudah kami deploy dengan bantuan tools render sehingga dapat di akses pada link berikut ini https://pasd-kelompok-wecan.onrender.com. Perlu diketahui untuk tampilannya juga sudah respontif sehingga bisa di akses melalui handphone maupun laptop.
 
 ## Daftar Isi
 - [Konsep Penting](#konsep-penting)
